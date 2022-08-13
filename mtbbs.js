@@ -31,12 +31,11 @@ function MapToStyleClassText(...maps) {
     var map = null;
     for (var i = 0; i < maps.length; i++) {
         map = maps[i];
-        for (var key in map) {
-            result += key + "{"
-            result += map[key].toString().replace("\'", "").replace(",", ";")
-            result += "}"
-        }
+        for (var key in map)
+            result += key + "{" + map[key] + "}"
     }
+    result = result.replaceAll(",", ";");
+    logd(result)
     return result;
 }
 
@@ -184,12 +183,12 @@ function replaceStyle() {
             const comiis_nv = get("comiis_nv.id");
             const comiis_nvdiv = get("comiis_nvdiv.class").to();
             /* 去除默认高度的限制 */
-            setStyles(comiis_nv, comiis_nvdiv, "height: auto");
+            comiis_nvdiv.style.height = "80px";
+            comiis_nv.style.height = "auto";
             /* 重定义背景外宽距以及背景圆角 */
-            setStyles(comiis_nv, ListToCssText(
-                "margin:10px 20px 10px 20px",
-                "border-radius:25px"
-            ));
+            comiis_nv.style.margin = "10px 20px 10px 20px";
+            comiis_nv.style.borderRadius = "25px";
+
             const comiis_nvbox = get("comiis_nvbox.class").to();
             setStylesOnForeach(
                 /* 替换导航栏项目原来的背景颜色 */
@@ -216,7 +215,7 @@ function replaceStyle() {
             setCallBackOnForeach(
                 gets(comiis_rollzbox, "div.tag").all(),
                 function(e) {
-                    e.style.background = "#ffffff60"
+                    e.style.backgroundColor = "#ffffff70";
                 }
             );
         }
