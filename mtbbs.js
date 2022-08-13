@@ -9,15 +9,21 @@
 // ==/UserScript==
 
 (function() {
-    /* 设置背景图片 */
-    setBackgroundImage("https://s1.ax1x.com/2022/08/13/vN2BXF.jpg");
-
     /* 增加class样式 */
     addStyles(MapToStyleClassText({
         "@keyframes fade-in": ["0% { opacity: 0;}", "100% {opacity: 1;}"]
     }, {
         "*": ["animation: fade-in", "animation-duration: 0.8s"]
     }));
+
+    window.onload = function() {
+        // 设置背景图片 
+        setBackgroundImage("https://s1.ax1x.com/2022/08/13/vN2BXF.jpg");
+        // 替换样式
+        replaceStyle();
+        // 自动签到
+        autoDaysSign();
+    }
 })();
 
 function MapToStyleClassText(...maps) {
@@ -186,8 +192,8 @@ function replaceStyle() {
                 function(e) {
                     const text = e.path[0];
                     const bac = e.path[1];
-                    text.style.color = ""
-                    bac.style.background = ""
+                    text.style.color = "#000000"
+                    bac.style.background = "#CCFFFF"
                 },
                 function(e) {
                     e.path[0].style.color = ""
