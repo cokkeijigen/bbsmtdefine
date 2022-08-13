@@ -159,6 +159,11 @@ function setStylesOnForeach(obj, css) {
         obj[i].style.cssText = css;
 }
 
+function setCallBackOnForeach(obj, func) {
+    for (var i = 0; i < obj.length; i++)
+        func(obj[i]);
+}
+
 function foreachSetOnMouse(obj, over, out) {
     for (var i = 0; i < obj.length; i++) {
         obj[i].onmouseout = out;
@@ -208,9 +213,11 @@ function replaceStyle() {
 
             const comiis_rollzbox = get("comiis_rollzbox.class").to();
             setStyles(comiis_rollzbox, "padding-top:10px");
-            setStylesOnForeach(
+            setCallBackOnForeach(
                 gets(comiis_rollzbox, "div.tag").all(),
-                "background:#ffffff60"
+                function(e) {
+                    e.style.background = "#ffffff60"
+                }
             );
         }
     } catch (e) {
