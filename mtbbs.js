@@ -187,6 +187,7 @@ function replaceStyle() {
             comiis_nv.style.height = "auto";
             /* 重定义背景外宽距以及背景圆角 */
             comiis_nv.style.margin = "10px 20px 10px 20px";
+            comiis_nv.style.width = "98%";
             comiis_nv.style.borderRadius = "25px";
 
             const comiis_nvbox = get("comiis_nvbox.class").to();
