@@ -49,7 +49,11 @@ function addStyles(cssText) {
 function setBackgroundImage(url) {
     setStyles(get("body.tag").to(), ListToCssText(
         "background-image: url(" + url + ")",
-        "background-repeat: repeat-y"
+        "background-attachment: fixed",
+        "background-repeat: no-repeat",
+        "background-size: 100%",
+        "background-size: cover",
+        "background-position: center 0"
     ))
 }
 
