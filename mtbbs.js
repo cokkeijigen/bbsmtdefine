@@ -196,8 +196,8 @@ function replaceStyle() {
                 function(e) {
                     const text = e.path[0];
                     const bac = e.path[1];
-                    text.style.color = "#000000"
-                    bac.style.background = "#CCFFFF"
+                    text.style.color = ""
+                    bac.style.background = ""
                 },
                 function(e) {
                     e.path[0].style.color = ""
@@ -205,8 +205,13 @@ function replaceStyle() {
                 }
             );
         } {
-            const wp = get("wp.id");
-            setStyles(wp, "margin-top:10px");
+
+            const comiis_rollzbox = get("comiis_rollzbox.class").to();
+            setStyles(comiis_rollzbox, "padding-top:10px");
+            setStylesOnForeach(
+                gets(comiis_rollzbox, "div.tag").all(),
+                "background:#ffffff60"
+            );
         }
     } catch (e) {
         logd("replaceStyle err : " + e);
