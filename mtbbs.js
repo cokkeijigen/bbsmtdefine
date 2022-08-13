@@ -6,6 +6,7 @@
 // @author       CokkezigenDAR
 // @match        *.binmt.cc/*
 // @grant        none
+// @icon         https://bbs.binmt.cc/favicon.ico
 // ==/UserScript==
 
 (function() {
