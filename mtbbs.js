@@ -186,8 +186,8 @@ function replaceStyle() {
                 function(e) {
                     const text = e.path[0];
                     const bac = e.path[1];
-                    text.style.color = "#000000"
-                    bac.style.background = "#CCFFFF"
+                    text.style.color = ""
+                    bac.style.background = ""
                 },
                 function(e) {
                     e.path[0].style.color = ""
