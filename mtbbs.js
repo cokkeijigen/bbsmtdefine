@@ -208,12 +208,3 @@ function replaceStyle() {
         logd("replaceStyle err : " + e);
     }
 }
-
-(function() {
-    window.onload = function() {
-        // 替换样式
-        replaceStyle();
-        // 自动签到
-        autoDaysSign();
-    }
-})();
