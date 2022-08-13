@@ -18,8 +18,8 @@
     }));
 
     window.onload = function() {
-        // 设置背景图片 
-        setBackgroundImage("https://s1.ax1x.com/2022/08/13/vN2BXF.jpg");
+        // 设置背景图片
+        setBackgroundImage("https://s1.ax1x.com/2022/08/14/vNbMp4.png");
         // 替换样式
         replaceStyle();
         // 自动签到
