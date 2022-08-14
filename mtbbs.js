@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MT论坛加强插件
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.5
 // @description  总之打点字上去!
 // @author       CokkezigenDAR
 // @match        *bbs.binmt.cc/*
@@ -65,13 +65,13 @@ function initStyleClass() {
             "position: fixed",
             "bottom: 0",
             "z-index: 99999",
-            "right: 3.5%",
+            "right: 7.5%",
             "opacity: 0"
         ]
     }, {
         "#thisSettings:hover": ["opacity: 1"]
     }, {
-        "#closeIFrame, #openNewTab, #copyUrl": [
+        "#closeIFrame, #openNewTab, #copyUrl, #goBack": [
             "float: right",
             "padding: 10px 15px",
             "margin: 5px 10px",
@@ -83,7 +83,7 @@ function initStyleClass() {
             "box-shadow: 0 0 8px #0084ff"
         ]
     }, {
-        "#closeIFrame:hover, #openNewTab:hover, #copyUrl:hover": [
+        "#closeIFrame:hover, #openNewTab:hover, #copyUrl:hover, #goBack:hover": [
             "cursor: pointer",
             "background-color: #000c2e",
             "box-shadow: 0 0 8px #ffefaa"
@@ -316,7 +316,7 @@ function createIframe() {
     const mainIFrame = document.createElement("iframe");
     const iframe_settings = document.createElement("div");
 
-    iframe_settings.innerHTML = "<p id=\"closeIFrame\">关闭</p>" +
+    iframe_settings.innerHTML = "<p id=\"closeIFrame\">关闭</p>" + "<p id=\"goBack\"><-</p>" +
         "<p id=\"openNewTab\" style=\"display: none\">新建标签打开</p>";
     iframe_settings.id = "iframe_settings";
 
@@ -328,8 +328,11 @@ function createIframe() {
     contentFrame.appendChild(iframe_settings);
     contentFrame.appendChild(mainIFrame);
     get("html").tag.to().appendChild(contentFrame);
-    closeIFrame.onclick = function() {
+    get("closeIFrame.id").onclick = function() {
         contentFrame.style.display = "none";
+    }
+    get("goBack.id").onclick = function() {
+        mainIFrame.contentWindow.history.back();
     }
 
 }
