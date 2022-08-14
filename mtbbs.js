@@ -11,10 +11,7 @@
 
 (function() {
     initStyleClass();
-    if (top != self) {
-        initIframe();
-        return;
-    }
+    if (top != self) return initIframe();
     intWindowOnload();
 })();
 
@@ -28,9 +25,9 @@ function intWindowOnload() {
         replaceStyle();
         // 自动签到
         autoDaysSign();
-
+        // 初始化子窗口
         createIframe();
-
+        // 重载标签加载页面
         initLoadPage();
     }
 }
