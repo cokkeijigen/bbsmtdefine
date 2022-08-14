@@ -233,7 +233,7 @@ function setMainIFrame(url) {
     mainIFrame.onload = function() {
         contentFrame.style.display = "";
     }
-    if (url.search("binmt") != -1) {
+    if (url.search("binmt.cc/doc/") != -1) {
         const openNewTab = get("openNewTab.id");
         openNewTab.style.display = "block";
         openNewTab.onclick = function() {
