@@ -387,6 +387,11 @@ function initLoadPage() {
                 });
             }
         } catch (e) {}
+        try { // 
+            setCallBackOnForeach(get("bm_c.class").all(), function(e, n) {
+                setCallBackOnForeach(get("a.tag", e).all(), (e, n) => rep(e));
+            })
+        } catch (e) {}
         try { // 收藏界面
             setCallBackOnForeach(get("a.tag", get("favorite_ul.id")).all(), function(e, n) {
                 rep(e);
