@@ -98,16 +98,18 @@ function createIframe() {
     const contentFrame = document.createElement("div");
     const mainIFrame = document.createElement("iframe");
     const iframe_settings = document.createElement("div");
-    iframe_settings.id = "iframe_settings";
+
     iframe_settings.innerHTML = "<p id=\"closeIFrame\">关闭</p>" +
         "<p id=\"openNewTab\">新建标签打开</p>" +
         "<p id=\"copyUrl\">复制链接</p>";
+
     mainIFrame.id = "mainIFrame";
     contentFrame.id = "contentFrame";
-    mainIFrame.frameborder = "0";
+    iframe_settings.id = "iframe_settings";
 
+    mainIFrame.frameborder = "0";
     contentFrame.style.display = "none";
-    // if (window.location == mainIFrame.src) return;
+
     contentFrame.appendChild(iframe_settings);
     contentFrame.appendChild(mainIFrame);
     get("html").tag.to().appendChild(contentFrame);
@@ -161,7 +163,7 @@ function initOverload() {
     setCallBackOnForeach(get("a.tag").all(), function(e, n) {
         const url = e.href;
         e.onclick = function() {
-            window.location.href = url;
+            window.location.href = url.replace("http", "https").replace("ss", "s");
         }
         e.removeAttribute("href");
     });
