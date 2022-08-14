@@ -377,9 +377,9 @@ function initLoadPage() {
 /* ---------------------Script1--------------------- */
 function gotoScript2() {}
 /* ---------------------Script2--------------------- */
+
 function initContent() {
     const html = get("html").tag.to();
-    logd("调用？")
     const thisSettings = document.createElement("div");
     thisSettings.innerHTML = "<p id=\"openNewTab\">新建标签打开</p>" +
         "<p id=\"copyUrl\">复制链接</p>";
@@ -418,10 +418,8 @@ function initContent() {
 }
 
 function initOverload() {
-    logd(get("a.tag").all())
     setCallBackOnForeach(get("a.tag").all(), function(e, n) {
         const url = e.href.replace("http", "https").replace("ss", "s");
-        logd(url)
         e.onclick = function() {
             window.location.href = url;
         }
