@@ -393,12 +393,13 @@ function initContent() {
     copyUrl.onclick = function() {
         const input = document.createElement("input");
         document.body.appendChild(input);
-        const thisUrl = window.location.href;
-        input.setAttribute("value", thisUrl);
+        let text = "【MT论坛】 标题：" + document.title +
+            "，链接：" + window.location.href;
+        input.setAttribute("value", text);
         input.select();
         document.execCommand("copy");
         document.body.removeChild(input);
-        copyUrl.innerText = window.location.href + ": 复制成功！";
+        copyUrl.innerText = text + ": 复制成功！";
         setTimeout(function() {
             copyUrl.innerText = "复制链接";
         }, 3000);
