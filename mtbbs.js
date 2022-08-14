@@ -230,11 +230,13 @@ function setBackgroundImage(url) {
 }
 
 function setMainIFrame(url) {
+    url = url.replace("http", "https").replace("ss", "s");
     const mainIFrame = get("mainIFrame.id");
-    mainIFrame.src = url.replace("http", "https").replace("ss", "s");
+    mainIFrame.src = url;
     mainIFrame.onload = function() {
         contentFrame.style.display = "";
     }
+
     if (url.search("binmt.cc/doc/") != -1) {
         const openNewTab = get("openNewTab.id");
         openNewTab.style.display = "block";
@@ -334,6 +336,7 @@ function createIframe() {
     get("goBack.id").onclick = function() {
         mainIFrame.contentWindow.history.back();
     }
+
 
 }
 
