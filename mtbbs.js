@@ -229,13 +229,19 @@ function setBackgroundImage(url) {
 
 function setMainIFrame(url) {
     const mainIFrame = get("mainIFrame.id");
-
     mainIFrame.src = url.replace("http", "https").replace("ss", "s");
     mainIFrame.onload = function() {
         contentFrame.style.display = "";
     }
-
+    if (url.search("binmt") != -1) {
+        const openNewTab = get("openNewTab.id");
+        openNewTab.style.display = "block";
+        openNewTab.onclick = function() {
+            window.open(mainIFrame.src, "_blank");
+        }
+    }
 }
+
 
 function replaceStyle() {
     try {
