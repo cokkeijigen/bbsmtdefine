@@ -201,7 +201,8 @@ function ListToCssText(...data) {
 function gotoScript1() {}
 /* ---------------------Script1--------------------- */
 function intWindowOnload() {
-
+    const html = get("html").tag.to();
+    html.style.opacity = "0";
     window.onload = function() {
         // 设置背景图片
         setBackgroundImage("https://s1.ax1x.com/2022/08/14/vNbMp4.png");
@@ -213,6 +214,7 @@ function intWindowOnload() {
         createIframe();
         // 重载标签加载页面
         initLoadPage();
+        html.style.opacity = "1";
     }
 }
 
@@ -386,6 +388,7 @@ function initLoadPage() {
 function gotoScript2() {}
 /* ---------------------Script2--------------------- */
 
+
 function initContent() {
     const html = get("html").tag.to();
     const thisSettings = document.createElement("div");
@@ -414,17 +417,18 @@ function initContent() {
         }, 3000);
     }
 
-
+    html.style.opacity = "0";
     window.onload = function() {
         initOverload();
         get("hd.id").innerHTML = "";
         get("comiis_footer.class").to().innerHTML = "";
-        get("html").tag.to().style.display = "";
         setStyles(get("body.tag").to(), "background: #fffffff0");
         try { setStyles(get("comiis_lbox.class").to(), "display: none"); } catch (e) {}
         try { get("boardnavr.class").to().className = ".boardnavr_comiis_width"; } catch (e) {}
+        html.style.opacity = "1";
     }
 }
+
 
 function initOverload() {
     setCallBackOnForeach(get("a.tag").all(), function(e, n) {
