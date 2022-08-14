@@ -348,6 +348,15 @@ function replaceStyle() {
 }
 
 function initLoadPage() {
+
+    const rep = function(e) {
+        const url = e.href;
+        e.onclick = function() {
+            setMainIFrame(url);
+        }
+        e.removeAttribute("href");
+    }
+
     { // 导航栏内容
         const comiis_nvbox = get("comiis_nvbox.class").to();
         setCallBackOnForeach(get("li.tag", comiis_nvbox).all(), function(e, n) {
@@ -360,12 +369,23 @@ function initLoadPage() {
             e.innerHTML = content.replaceAll(url, "");
         });
     } { // 中间部分
-        setCallBackOnForeach(get("a.tag", get("ct.id")).all(), function(e, n) {
-            const url = e.href;
-            e.onclick = function() {
-                setMainIFrame(url);
-            }
-            e.removeAttribute("href");
+        try {
+            setCallBackOnForeach(get("a.tag", get("fl.class").to()).all(), function(e, n) {
+                rep(e);
+            });
+        } catch (e) {}
+        try {
+            const onlinelist = get("ul.tag", get("online.id"));
+            if (onlinelist.all().length != 0)
+                setCallBackOnForeach(get("a.tag", onlinelist.to()).all(), function(e, n) {
+                    rep(e);
+                });
+        } catch (e) {
+            logd("啥？？" + e)
+        }
+    } { // 右边部分
+        setCallBackOnForeach(get("a.tag", get("comiis_rollbox.id")).all(), function(e, n) {
+            rep(e);
         });
     }
 }
