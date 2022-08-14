@@ -449,7 +449,9 @@ function initOverload() {
     setCallBackOnForeach(get("a.tag").all(), function(e, n) {
         const url = e.href.replace("http", "https").replace("ss", "s");
         e.onclick = function() {
-            window.location.href = url;
+            if (url.search("binmt") != -1)
+                window.location.href = url;  // 站内地址可以继续使用子窗口访问
+            else window.open(url, "_blank"); // 站外的地址新建标签页打开
         }
         e.removeAttribute("href");
     });
