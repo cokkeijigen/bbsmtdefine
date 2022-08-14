@@ -36,7 +36,6 @@ function MapToStyleClassText(...maps) {
             result += key + "{" + map[key] + "}"
     }
     result = result.replaceAll(",", ";");
-    logd(result)
     return result;
 }
 
@@ -57,68 +56,45 @@ function setBackgroundImage(url) {
     ))
 }
 
-function get(val) {
-    let Elements = null;
-    const to = function(v = 0) {
-        if ((v < 0 && 0 > Elements.length - v) || v >= Elements.length) return null;
-        return Elements[v >= 0 ? v : Elements.length - v];
+function get() {
+    if (arguments.length != 1 && arguments.length != 2)
+        throw "function get(): The number of parameters must be 1 or 2";
+    const result = function(val, obj) {
+        let Elements = null;
+        const to = function(v = 0) {
+            if ((v < 0 && 0 > Elements.length - v) || v >= Elements.length) return null;
+            return Elements[v >= 0 ? v : Elements.length - v];
+        }
+        const all = function() { return Elements };
+        if (val.substring(val.length - 3) == ".id")
+            return (obj != null ? obj : document).getElementById(val.substring(0, val.length - 3));
+        if (val.substring(val.length - 6) == ".class")
+            return new function() {
+                Elements = (obj != null ? obj : document).getElementsByClassName(val.substring(0, val.length - 6));
+                this.to = to;
+                this.all = all;
+            }
+        if (val.substring(val.length - 4) == ".tag")
+            return new function() {
+                Elements = (obj != null ? obj : document).getElementsByTagName(val.substring(0, val.length - 4));
+                this.to = to;
+                this.all = all;
+            }
+        if (val.substring(val.length - 5) == ".name")
+            return new function() {
+                Elements = (obj != null ? obj : document).getElementsByName(val.substring(0, val.length - 5));
+                this.to = to;
+                this.all = all;
+            }
+        return new function() {
+            this.tag = result(val + ".tag");
+            this.class = result(val + ".class");
+            this.id = result(val + ".id");
+            this.name = result(val + ".name");
+        };
     }
-    const all = function() { return Elements };
-    if (val.substring(val.length - 3) == ".id")
-        return document.getElementById(val.substring(0, val.length - 3));
-    if (val.substring(val.length - 6) == ".class")
-        return new function() {
-            Elements = document.getElementsByClassName(val.substring(0, val.length - 6));
-            this.to = to;
-            this.all = all;
-        }
-    if (val.substring(val.length - 4) == ".tag")
-        return new function() {
-            Elements = document.getElementsByTagName(val.substring(0, val.length - 4));
-            this.to = to;
-            this.all = all;
-        }
-    if (val.substring(val.length - 5) == ".name")
-        return new function() {
-            Elements = document.getElementsByName(val.substring(0, val.length - 5));
-            this.to = to;
-            this.all = all;
-        }
-    return new function() {
-        this.tag = get(val + ".tag");
-        this.class = get(val + ".class");
-        this.id = get(val + ".id");
-        this.name = get(val + ".name");
-    };
-}
-
-function gets(obj, val) {
-    let Elements = null;
-    const to = function(v = 0) {
-        if ((v < 0 && 0 > Elements.length - v) || v >= Elements.length) return null;
-        return Elements[v >= 0 ? v : Elements.length - v];
-    }
-    const all = function() { return Elements };
-    if (val.substring(val.length - 3) == ".id")
-        return obj.getElementById(val.substring(0, val.length - 3));
-    if (val.substring(val.length - 6) == ".class")
-        return new function() {
-            Elements = obj.getElementsByClassName(val.substring(0, val.length - 6));
-            this.to = to;
-            this.all = all;
-        }
-    if (val.substring(val.length - 4) == ".tag")
-        return new function() {
-            Elements = obj.getElementsByTagName(val.substring(0, val.length - 4));
-            this.to = to;
-            this.all = all;
-        }
-    if (val.substring(val.length - 5) == ".name")
-        return new function() {
-            Elements = obj.getElementsByName(val.substring(0, val.length - 5));
-            this.to = to;
-            this.all = all;
-        }
+    if (arguments.length == 1) return result(arguments[0], null);
+    if (arguments.length == 2) return result(arguments[0], arguments[1])
 }
 
 function logd(text) {
@@ -194,11 +170,11 @@ function replaceStyle() {
             const comiis_nvbox = get("comiis_nvbox.class").to();
             setStylesOnForeach(
                 /* 替换导航栏项目原来的背景颜色 */
-                gets(comiis_nvbox, "a.tag").all(),
+                get("a.tag", comiis_nvbox).all(),
                 "background:#00000000"
             );
             foreachSetOnMouse(
-                gets(comiis_nvbox, "li.tag").all(),
+                get("li.tag", comiis_nvbox).all(),
                 function(e) {
                     const text = e.path[0];
                     const bac = e.path[1];
@@ -215,7 +191,7 @@ function replaceStyle() {
             const comiis_rollzbox = get("comiis_rollzbox.class").to();
             setStyles(comiis_rollzbox, "padding-top:10px");
             setCallBackOnForeach(
-                gets(comiis_rollzbox, "div.tag").all(),
+                get("div.tag", comiis_rollzbox).all(),
                 function(e) {
                     e.style.backgroundColor = "#ffffff70";
                 }
