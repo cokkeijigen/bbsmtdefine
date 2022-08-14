@@ -387,7 +387,7 @@ function initLoadPage() {
                 });
             }
         } catch (e) {}
-        try { // 
+        try { // 导读界面
             setCallBackOnForeach(get("bm_c.class").all(), function(e, n) {
                 setCallBackOnForeach(get("a.tag", e).all(), (e, n) => rep(e));
             })
