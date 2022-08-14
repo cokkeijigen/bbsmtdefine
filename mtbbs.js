@@ -355,6 +355,7 @@ function initLoadPage() {
 
     const rep = function(e) {
         const url = e.href;
+        if (url.length < 1) return;
         e.onclick = function() {
             setMainIFrame(url);
         }
@@ -379,13 +380,9 @@ function initLoadPage() {
             });
         } catch (e) {}
         try {
-            const online = get("online.id");
-            const onlinelist = get("ul.tag", online);
-            if (online != null && onlinelist.all().length != 0) {
-                setCallBackOnForeach(get("a.tag", onlinelist.to()).all(), function(e, n) {
-                    rep(e);
-                });
-            }
+            setCallBackOnForeach(get("a.tag", get("ul.tag", get("online.id")).to()).all(), function(e, n) {
+                rep(e);
+            });
         } catch (e) {}
         try { // 导读界面
             setCallBackOnForeach(get("bm_c.class").all(), function(e, n) {
@@ -398,7 +395,6 @@ function initLoadPage() {
             })
         } catch (e) {}
     } { // 右边部分
-
         setCallBackOnForeach(get("a.tag", get("comiis_rollbox.id")).all(), function(e, n) {
             rep(e);
         });
