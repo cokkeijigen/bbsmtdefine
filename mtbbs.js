@@ -342,8 +342,14 @@ function createIframe() {
     get("closeIFrame.id").onclick = function() {
         contentFrame.style.display = "none";
     }
-    get("goBack.id").onclick = function() {
-        if (document.referrer.length > 1)
+    const goBack = get("goBack.id");
+    goBack.onclick = function() {
+        if (document.referrer.length == 0) {
+            goBack.innerText = "已经无法再后退了啦ヽ(･ω･´ﾒ)"
+            setTimeout(function() {
+                goBack.innerText = "<-";
+            }, 3000);
+        } else
             mainIFrame.contentWindow.history.back();
     }
 
