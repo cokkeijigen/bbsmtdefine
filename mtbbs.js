@@ -314,7 +314,8 @@ function createIframe() {
     const mainIFrame = document.createElement("iframe");
     const iframe_settings = document.createElement("div");
 
-    iframe_settings.innerHTML = "<p id=\"closeIFrame\">关闭</p>";
+    iframe_settings.innerHTML = "<p id=\"closeIFrame\">关闭</p>" +
+        "<p id=\"openNewTab\" style=\"display: none\">新建标签打开</p>";
     iframe_settings.id = "iframe_settings";
 
     mainIFrame.id = "mainIFrame";
@@ -328,6 +329,7 @@ function createIframe() {
     closeIFrame.onclick = function() {
         contentFrame.style.display = "none";
     }
+
 }
 
 function initLoadPage() {
