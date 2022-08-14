@@ -333,16 +333,18 @@ function replaceStyle() {
                 }
             );
         } {
-            // const comiis_rollzbox = get("comiis_rollzbox.class").to();
-            // setStyles(comiis_rollzbox, "padding-top:10px");
-            // setCallBackOnForeach(
-            //     get("div.tag", comiis_rollzbox).all(),
-            //     function(e, n) {
-            //         try {
-            //             e.style.backgroundColor = "#ffffff70";
-            //         } catch (e) {}
-            //     }
-            // );
+            try {
+                const comiis_rollzbox = get("comiis_rollzbox.class").to();
+                setStyles(comiis_rollzbox, "padding-top:10px");
+                setCallBackOnForeach(
+                    get("div.tag", comiis_rollzbox).all(),
+                    function(e, n) {
+                        try {
+                            e.style.backgroundColor = "#ffffff70";
+                        } catch (e) {}
+                    }
+                );
+            } catch (e) {}
         }
     } catch (e) {
         logd("replaceStyle err : " + e);
@@ -384,9 +386,12 @@ function initLoadPage() {
                     rep(e);
                 });
             }
-        } catch (e) {
-            logd("啥？？" + e)
-        }
+        } catch (e) {}
+        try { // 收藏界面
+            setCallBackOnForeach(get("a.tag", get("favorite_ul.id")).all(), function(e, n) {
+                rep(e);
+            })
+        } catch (e) {}
     } { // 右边部分
 
         setCallBackOnForeach(get("a.tag", get("comiis_rollbox.id")).all(), function(e, n) {
