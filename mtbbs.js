@@ -22,6 +22,11 @@
 gotoScript1();
 gotoScript2();
 /* ---------------------public--------------------- */
+
+function initPublic() {
+    get("append_parent.id").style.display = "none";
+}
+
 function initStyleClass() {
     /* 增加class样式 */
     addStyles(MapToStyleClassText({
@@ -204,6 +209,9 @@ function intWindowOnload() {
     const html = get("html").tag.to();
     html.style.opacity = "0";
     window.onload = function() {
+
+        initPublic();
+
         // 设置背景图片
         setBackgroundImage("https://s1.ax1x.com/2022/08/14/vNbMp4.png");
         // 替换样式
@@ -214,6 +222,7 @@ function intWindowOnload() {
         createIframe();
         // 重载标签加载页面
         initLoadPage();
+
         html.style.opacity = "1";
     }
 }
@@ -337,7 +346,6 @@ function createIframe() {
         mainIFrame.contentWindow.history.back();
     }
 
-
 }
 
 function initLoadPage() {
@@ -426,6 +434,7 @@ function initContent() {
     html.style.opacity = "0";
     window.onload = function() {
         initOverload();
+        initPublic();
         get("hd.id").innerHTML = "";
         get("comiis_footer.class").to().innerHTML = "";
         setStyles(get("body.tag").to(), "background: #fffffff0");
