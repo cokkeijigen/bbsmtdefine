@@ -10,12 +10,16 @@
 // ==/UserScript==
 
 (function() {
-    /* 增加class样式 */
-    addStyles(MapToStyleClassText({
-        "@keyframes fade-in": ["0% { opacity: 0;}", "100% {opacity: 1;}"]
-    }, {
-        "*": ["animation: fade-in", "animation-duration: 0.8s"]
-    }));
+    initStyleClass();
+    if (top != self) {
+        initIframe();
+        return;
+    }
+    intWindowOnload();
+})();
+
+
+function intWindowOnload() {
 
     window.onload = function() {
         // 设置背景图片
@@ -24,8 +28,147 @@
         replaceStyle();
         // 自动签到
         autoDaysSign();
+
+        createIframe();
+
+        initLoadPage();
     }
-})();
+}
+
+function initStyleClass() {
+    /* 增加class样式 */
+    addStyles(MapToStyleClassText({
+        "@keyframes fade-in": ["0% { opacity: 0;}", "100% {opacity: 1;}"]
+    }, {
+        "*": ["animation: fade-in", "animation-duration: 0.5s"]
+    }, {
+        "a:hover": ["cursor: pointer"]
+    }, {
+        "#contentFrame": [
+            "margin: auto",
+            "width: 80%",
+            "height: 85%",
+            "position: fixed",
+            "top: 0; bottom: 0",
+            "left: 0; right: 0",
+            "background-color: #00000000"
+        ]
+    }, {
+        "#mainIFrame": [
+            "border: none",
+            "scrolling:no",
+            "border-radius:25px",
+            "width: 100%", "height: 100%",
+            "transform: translate(-50%, -50%)",
+            "background-color: #00000000",
+            "box-shadow: 0 0 8px #0084ff"
+        ]
+    }, {
+        "#iframe_settings": [
+            "text-align: center",
+            "position: absolute",
+            "bottom: 0",
+            "right: 0",
+            "opacity: 0"
+        ]
+    }, {
+        "#iframe_settings:hover": ["opacity: 1"]
+    }, {
+        "#iframe_settings p": [
+            "float: right",
+            "padding: 10px 15px",
+            "margin: 5px 10px",
+            "font-weight: bold",
+            "font-size: 10px",
+            "color: #ffffff",
+            "background-color: #6790ff",
+            "border-radius: 20px",
+            "box-shadow: 0 0 8px #0084ff"
+        ]
+    }, {
+        "#iframe_settings p:hover": [
+            "cursor: pointer",
+            "background-color: #000c2e",
+            "box-shadow: 0 0 8px #ffefaa"
+        ]
+    }, {
+        "boardnavr_comiis_width": ["float: left", "margin-left: -300px"]
+    }));
+}
+
+function createIframe() {
+    const contentFrame = document.createElement("div");
+    const mainIFrame = document.createElement("iframe");
+    const iframe_settings = document.createElement("div");
+    iframe_settings.id = "iframe_settings";
+    iframe_settings.innerHTML = "<p id=\"closeIFrame\">关闭</p>" +
+        "<p id=\"openNewTab\">新建标签打开</p>" +
+        "<p id=\"copyUrl\">复制链接</p>";
+    mainIFrame.id = "mainIFrame";
+    contentFrame.id = "contentFrame";
+    mainIFrame.frameborder = "0";
+
+    contentFrame.style.display = "none";
+    // if (window.location == mainIFrame.src) return;
+    contentFrame.appendChild(iframe_settings);
+    contentFrame.appendChild(mainIFrame);
+    get("html").tag.to().appendChild(contentFrame);
+}
+
+function setMainIFrame(url) {
+    const mainIFrame = get("mainIFrame.id");
+    const closeIFrame = get("closeIFrame.id");
+    const openNewTab = get("openNewTab.id");
+    const copyUrl = get("copyUrl.id");
+    mainIFrame.src = url.replace("http", "https").replace("ss", "s");
+    mainIFrame.onload = function() {
+        contentFrame.style.display = "";
+    }
+    closeIFrame.onclick = function() {
+        contentFrame.style.display = "none";
+    }
+    openNewTab.onclick = function() {
+        window.open(url, "_blank");
+    }
+    copyUrl.onclick = function() {
+        const input = document.createElement("input");
+        document.body.appendChild(input);
+        input.setAttribute("value", url);
+        input.select();
+        document.execCommand("copy");
+        document.body.removeChild(input);
+        copyUrl.innerText = "复制成功！";
+        setTimeout(function() {
+            copyUrl.innerText = "复制链接";
+        }, 3000);
+    }
+}
+
+function initIframe() {
+    if (window.location.href.search("bbs.binmt.cc") == -1) return;
+    get("html").tag.to().style.display = "none";
+    window.onload = function() {
+        get("hd.id").innerHTML = "";
+        get("comiis_footer.class").to().innerHTML = "";
+        get("html").tag.to().style.display = "";
+        setStyles(get("body.tag").to(), "background: #fffffff0");
+        try { setStyles(get("comiis_lbox.class").to(), "display: none"); } catch (e) {}
+        try { get("boardnavr.class").to().className = ".boardnavr_comiis_width"; } catch (e) {}
+        initOverload();
+    }
+}
+
+
+function initOverload() {
+    setCallBackOnForeach(get("a.tag").all(), function(e, n) {
+        const url = e.href;
+        e.onclick = function() {
+            window.location.href = url;
+        }
+        e.removeAttribute("href");
+    });
+}
+
 
 function MapToStyleClassText(...maps) {
     var result = "";
@@ -33,9 +176,8 @@ function MapToStyleClassText(...maps) {
     for (var i = 0; i < maps.length; i++) {
         map = maps[i];
         for (var key in map)
-            result += key + "{" + map[key] + "}"
+            result += key + "{" + map[key].toString().replaceAll(",", ";") + "}"
     }
-    result = result.replaceAll(",", ";");
     return result;
 }
 
@@ -87,10 +229,10 @@ function get() {
                 this.all = all;
             }
         return new function() {
-            this.tag = result(val + ".tag");
-            this.class = result(val + ".class");
-            this.id = result(val + ".id");
-            this.name = result(val + ".name");
+            this.tag = result(val + ".tag", obj);
+            this.class = result(val + ".class", obj);
+            this.id = result(val + ".id", obj);
+            this.name = result(val + ".name", obj);
         };
     }
     if (arguments.length == 1) return result(arguments[0], null);
@@ -136,8 +278,9 @@ function setStylesOnForeach(obj, css) {
 }
 
 function setCallBackOnForeach(obj, func) {
-    for (var i = 0; i < obj.length; i++)
-        func(obj[i]);
+    for (var i = 0; i < obj.length; i++) try { func(obj[i], i); } catch (e) {}
+
+
 }
 
 function foreachSetOnMouse(obj, over, out) {
@@ -192,12 +335,37 @@ function replaceStyle() {
             setStyles(comiis_rollzbox, "padding-top:10px");
             setCallBackOnForeach(
                 get("div.tag", comiis_rollzbox).all(),
-                function(e) {
-                    e.style.backgroundColor = "#ffffff70";
+                function(e, n) {
+                    try {
+                        e.style.backgroundColor = "#ffffff70";
+                    } catch (e) {}
                 }
             );
         }
     } catch (e) {
         logd("replaceStyle err : " + e);
+    }
+}
+
+function initLoadPage() {
+    { // 导航栏内容
+        const comiis_nvbox = get("comiis_nvbox.class").to();
+        setCallBackOnForeach(get("li.tag", comiis_nvbox).all(), function(e, n) {
+            if (n <= 1) return;
+            let content = e.innerHTML + "";
+            let url = content.split(" ")[1];
+            e.onclick = function() {
+                setMainIFrame(url.replace("href=", "").replaceAll("&amp;", "&").replaceAll("\"", ""));
+            }
+            e.innerHTML = content.replaceAll(url, "");
+        });
+    } { // 中间部分
+        setCallBackOnForeach(get("a.tag", get("ct.id")).all(), function(e, n) {
+            const url = e.href;
+            e.onclick = function() {
+                setMainIFrame(url);
+            }
+            e.removeAttribute("href");
+        });
     }
 }
