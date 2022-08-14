@@ -202,27 +202,31 @@ function get() {
     const result = function(val, obj) {
         let Elements = null;
         const to = function(v = 0) {
-            if ((v < 0 && 0 > Elements.length - v) || v >= Elements.length) return null;
+            if ((v < 0 && 0 > Elements.length - v) || v >= Elements.length || Elements == null) return null;
             return Elements[v >= 0 ? v : Elements.length - v];
         }
         const all = function() { return Elements };
         if (val.substring(val.length - 3) == ".id")
-            return (obj != null ? obj : document).getElementById(val.substring(0, val.length - 3));
+            return obj != null ? obj.getElementById(val.substring(0, val.length - 3)) :
+                null;
         if (val.substring(val.length - 6) == ".class")
             return new function() {
-                Elements = (obj != null ? obj : document).getElementsByClassName(val.substring(0, val.length - 6));
+                Elements = obj != null ? obj.getElementsByClassName(val.substring(0, val.length - 6)) :
+                    null;
                 this.to = to;
                 this.all = all;
             }
         if (val.substring(val.length - 4) == ".tag")
             return new function() {
-                Elements = (obj != null ? obj : document).getElementsByTagName(val.substring(0, val.length - 4));
+                Elements = obj != null ? obj.getElementsByTagName(val.substring(0, val.length - 4)) :
+                    null;
                 this.to = to;
                 this.all = all;
             }
         if (val.substring(val.length - 5) == ".name")
             return new function() {
-                Elements = (obj != null ? obj : document).getElementsByName(val.substring(0, val.length - 5));
+                Elements = obj != null ? obj.getElementsByName(val.substring(0, val.length - 5)) :
+                    null;
                 this.to = to;
                 this.all = all;
             }
@@ -233,7 +237,7 @@ function get() {
             this.name = result(val + ".name", obj);
         };
     }
-    if (arguments.length == 1) return result(arguments[0], null);
+    if (arguments.length == 1) return result(arguments[0], document);
     if (arguments.length == 2) return result(arguments[0], arguments[1])
 }
 
@@ -276,6 +280,7 @@ function setStylesOnForeach(obj, css) {
 }
 
 function setCallBackOnForeach(obj, func) {
+    if (obj == null) return;
     for (var i = 0; i < obj.length; i++) try { func(obj[i], i); } catch (e) {}
 
 
@@ -328,17 +333,16 @@ function replaceStyle() {
                 }
             );
         } {
-
-            const comiis_rollzbox = get("comiis_rollzbox.class").to();
-            setStyles(comiis_rollzbox, "padding-top:10px");
-            setCallBackOnForeach(
-                get("div.tag", comiis_rollzbox).all(),
-                function(e, n) {
-                    try {
-                        e.style.backgroundColor = "#ffffff70";
-                    } catch (e) {}
-                }
-            );
+            // const comiis_rollzbox = get("comiis_rollzbox.class").to();
+            // setStyles(comiis_rollzbox, "padding-top:10px");
+            // setCallBackOnForeach(
+            //     get("div.tag", comiis_rollzbox).all(),
+            //     function(e, n) {
+            //         try {
+            //             e.style.backgroundColor = "#ffffff70";
+            //         } catch (e) {}
+            //     }
+            // );
         }
     } catch (e) {
         logd("replaceStyle err : " + e);
@@ -373,15 +377,18 @@ function initLoadPage() {
             });
         } catch (e) {}
         try {
-            const onlinelist = get("ul.tag", get("online.id"));
-            if (onlinelist.all().length != 0)
+            const online = get("online.id");
+            const onlinelist = get("ul.tag", online);
+            if (online != null && onlinelist.all().length != 0) {
                 setCallBackOnForeach(get("a.tag", onlinelist.to()).all(), function(e, n) {
                     rep(e);
                 });
+            }
         } catch (e) {
             logd("啥？？" + e)
         }
     } { // 右边部分
+
         setCallBackOnForeach(get("a.tag", get("comiis_rollbox.id")).all(), function(e, n) {
             rep(e);
         });
