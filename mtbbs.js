@@ -65,7 +65,7 @@ function initStyleClass() {
             "position: fixed",
             "bottom: 0",
             "z-index: 99999",
-            "right: 4%",
+            "right: 3.5%",
             "opacity: 0"
         ]
     }, {
