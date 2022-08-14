@@ -393,8 +393,9 @@ function initContent() {
     copyUrl.onclick = function() {
         const input = document.createElement("input");
         document.body.appendChild(input);
-        let text = "【MT论坛】 标题：" + document.title +
-            "，链接：" + window.location.href;
+        const text = "标题：" + document.title +
+            "，链接：" + window.location.href +
+            "，内容出处：MT论坛。";
         input.setAttribute("value", text);
         input.select();
         document.execCommand("copy");
