@@ -135,7 +135,7 @@ function setMainIFrame(url) {
         input.select();
         document.execCommand("copy");
         document.body.removeChild(input);
-        copyUrl.innerText = "复制成功！";
+        copyUrl.innerText = url + ": 复制成功！";
         setTimeout(function() {
             copyUrl.innerText = "复制链接";
         }, 3000);
