@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MT论坛加强插件
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  总之打点字上去!
 // @author       CokkezigenDAR
 // @match        *.binmt.cc/*
@@ -48,13 +48,14 @@ function initStyleClass() {
             "position: fixed",
             "top: 0; bottom: 0",
             "left: 0; right: 0",
-            "background-color: #00000000"
+            "border-radius:15px",
+            "background-color: #ffffff70"
         ]
     }, {
         "#mainIFrame": [
             "border: none",
             "scrolling:no",
-            "border-radius:25px",
+            "border-radius:15px",
             "width: 100%", "height: 100%",
             "transform: translate(-50%, -50%)",
             "background-color: #00000000",
