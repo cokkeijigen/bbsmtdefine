@@ -70,7 +70,7 @@ function initStyleClass() {
             "position: fixed",
             "bottom: 0",
             "z-index: 99999",
-            "right: 7.5%",
+            "right: 120px",
             "opacity: 0"
         ]
     }, {
