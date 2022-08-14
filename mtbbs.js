@@ -4,34 +4,24 @@
 // @version      0.2
 // @description  总之打点字上去!
 // @author       CokkezigenDAR
-// @match        *.binmt.cc/*
+// @match        *bbs.binmt.cc/*
 // @grant        none
 // @icon         https://bbs.binmt.cc/favicon.ico
 // ==/UserScript==
 
 (function() {
-    initStyleClass();
-    if (top != self) return initIframe();
-    intWindowOnload();
+    initStyleClass(); // css style
+
+    if (top != self) { // Script1
+        initContent();
+    } else if (top == self) { // Script2
+        intWindowOnload();
+    }
 })();
 
-
-function intWindowOnload() {
-
-    window.onload = function() {
-        // 设置背景图片
-        setBackgroundImage("https://s1.ax1x.com/2022/08/14/vNbMp4.png");
-        // 替换样式
-        replaceStyle();
-        // 自动签到
-        autoDaysSign();
-        // 初始化子窗口
-        createIframe();
-        // 重载标签加载页面
-        initLoadPage();
-    }
-}
-
+gotoScript1();
+gotoScript2();
+/* ---------------------public--------------------- */
 function initStyleClass() {
     /* 增加class样式 */
     addStyles(MapToStyleClassText({
@@ -45,6 +35,7 @@ function initStyleClass() {
             "margin: auto",
             "width: 80%",
             "height: 85%",
+            "z-index: 999",
             "position: fixed",
             "top: 0; bottom: 0",
             "left: 0; right: 0",
@@ -66,13 +57,21 @@ function initStyleClass() {
             "text-align: center",
             "position: absolute",
             "bottom: 0",
-            "right: 0",
+            "right: 0"
+        ]
+    }, {
+        "#thisSettings": [
+            "text-align: center",
+            "position: fixed",
+            "bottom: 0",
+            "z-index: 99999",
+            "right: 4%",
             "opacity: 0"
         ]
     }, {
-        "#iframe_settings:hover": ["opacity: 1"]
+        "#thisSettings:hover": ["opacity: 1"]
     }, {
-        "#iframe_settings p": [
+        "#closeIFrame, #openNewTab, #copyUrl": [
             "float: right",
             "padding: 10px 15px",
             "margin: 5px 10px",
@@ -84,7 +83,7 @@ function initStyleClass() {
             "box-shadow: 0 0 8px #0084ff"
         ]
     }, {
-        "#iframe_settings p:hover": [
+        "#closeIFrame:hover, #openNewTab:hover, #copyUrl:hover": [
             "cursor: pointer",
             "background-color: #000c2e",
             "box-shadow: 0 0 8px #ffefaa"
@@ -92,110 +91,6 @@ function initStyleClass() {
     }, {
         "boardnavr_comiis_width": ["float: left", "margin-left: -300px"]
     }));
-}
-
-function createIframe() {
-    const contentFrame = document.createElement("div");
-    const mainIFrame = document.createElement("iframe");
-    const iframe_settings = document.createElement("div");
-
-    iframe_settings.innerHTML = "<p id=\"closeIFrame\">关闭</p>" +
-        "<p id=\"openNewTab\">新建标签打开</p>" +
-        "<p id=\"copyUrl\">复制链接</p>";
-
-    mainIFrame.id = "mainIFrame";
-    contentFrame.id = "contentFrame";
-    iframe_settings.id = "iframe_settings";
-
-    mainIFrame.frameborder = "0";
-    contentFrame.style.display = "none";
-
-    contentFrame.appendChild(iframe_settings);
-    contentFrame.appendChild(mainIFrame);
-    get("html").tag.to().appendChild(contentFrame);
-}
-
-function setMainIFrame(url) {
-    const mainIFrame = get("mainIFrame.id");
-    const closeIFrame = get("closeIFrame.id");
-    const openNewTab = get("openNewTab.id");
-    const copyUrl = get("copyUrl.id");
-    mainIFrame.src = url.replace("http", "https").replace("ss", "s");
-    mainIFrame.onload = function() {
-        contentFrame.style.display = "";
-    }
-    closeIFrame.onclick = function() {
-        contentFrame.style.display = "none";
-    }
-    openNewTab.onclick = function() {
-        window.open(url, "_blank");
-    }
-    copyUrl.onclick = function() {
-        const input = document.createElement("input");
-        document.body.appendChild(input);
-        input.setAttribute("value", url);
-        input.select();
-        document.execCommand("copy");
-        document.body.removeChild(input);
-        copyUrl.innerText = url + ": 复制成功！";
-        setTimeout(function() {
-            copyUrl.innerText = "复制链接";
-        }, 3000);
-    }
-}
-
-function initIframe() {
-    if (window.location.href.search("bbs.binmt.cc") == -1) return;
-    get("html").tag.to().style.display = "none";
-    window.onload = function() {
-        get("hd.id").innerHTML = "";
-        get("comiis_footer.class").to().innerHTML = "";
-        get("html").tag.to().style.display = "";
-        setStyles(get("body.tag").to(), "background: #fffffff0");
-        try { setStyles(get("comiis_lbox.class").to(), "display: none"); } catch (e) {}
-        try { get("boardnavr.class").to().className = ".boardnavr_comiis_width"; } catch (e) {}
-        initOverload();
-    }
-}
-
-
-function initOverload() {
-    setCallBackOnForeach(get("a.tag").all(), function(e, n) {
-        const url = e.href;
-        e.onclick = function() {
-            window.location.href = url.replace("http", "https").replace("ss", "s");
-        }
-        e.removeAttribute("href");
-    });
-}
-
-
-function MapToStyleClassText(...maps) {
-    var result = "";
-    var map = null;
-    for (var i = 0; i < maps.length; i++) {
-        map = maps[i];
-        for (var key in map)
-            result += key + "{" + map[key].toString().replaceAll(",", ";") + "}"
-    }
-    return result;
-}
-
-function addStyles(cssText) {
-    const style = document.createElement("style");
-    style.innerText = cssText;
-    get("html").tag.to().appendChild(style);
-}
-
-function setBackgroundImage(url) {
-    setStyles(get("body.tag").to(), ListToCssText(
-        "background-image: url(" + url + ")",
-        "background-attachment: fixed",
-        "background-repeat: no-repeat",
-        "background-size: 100%",
-        "background-size: cover",
-        "background-position: center 0"
-    ))
 }
 
 function get() {
@@ -247,21 +142,6 @@ function logd(text) {
     console.log(text);
 }
 
-function autoDaysSign() {
-    try {
-        const JD_sign = get("JD_sign.id");
-        if (JD_sign == null) return;
-        if (((JD_sign.childNodes[1].innerHTML).replace(/\s*/g, "")) === "签到") {
-            JD_sign.click();
-            logd("自动签到成功！");
-        } else {
-            logd("今日已签到！");
-        }
-    } catch (e) {
-        logd("签到失败？ " + e);
-    }
-}
-
 function setStyles(...obj) {
     if (obj.length < 2) return;
     const css = obj[obj.length - 1];
@@ -276,6 +156,23 @@ function setStyles(...obj) {
     }
 }
 
+function addStyles(cssText) {
+    const style = document.createElement("style");
+    style.innerText = cssText;
+    get("html").tag.to().appendChild(style);
+}
+
+function MapToStyleClassText(...maps) {
+    var result = "";
+    var map = null;
+    for (var i = 0; i < maps.length; i++) {
+        map = maps[i];
+        for (var key in map)
+            result += key + "{" + map[key].toString().replaceAll(",", ";") + "}"
+    }
+    return result;
+}
+
 function setStylesOnForeach(obj, css) {
     for (var i = 0; i < obj.length; i++)
         obj[i].style.cssText = css;
@@ -284,8 +181,6 @@ function setStylesOnForeach(obj, css) {
 function setCallBackOnForeach(obj, func) {
     if (obj == null) return;
     for (var i = 0; i < obj.length; i++) try { func(obj[i], i); } catch (e) {}
-
-
 }
 
 function foreachSetOnMouse(obj, over, out) {
@@ -300,6 +195,46 @@ function ListToCssText(...data) {
     for (var i = 0; i < data.length; i++)
         result += data[i] + ";";
     return result;
+}
+/* ---------------------public--------------------- */
+
+function gotoScript1() {}
+/* ---------------------Script1--------------------- */
+function intWindowOnload() {
+
+    window.onload = function() {
+        // 设置背景图片
+        setBackgroundImage("https://s1.ax1x.com/2022/08/14/vNbMp4.png");
+        // 替换样式
+        replaceStyle();
+        // 自动签到
+        autoDaysSign();
+        // 初始化子窗口
+        createIframe();
+        // 重载标签加载页面
+        initLoadPage();
+    }
+}
+
+function setBackgroundImage(url) {
+    setStyles(get("body.tag").to(), ListToCssText(
+        "background-image: url(" + url + ")",
+        "background-attachment: fixed",
+        "background-repeat: no-repeat",
+        "background-size: 100%",
+        "background-size: cover",
+        "background-position: center 0"
+    ))
+}
+
+function setMainIFrame(url) {
+    const mainIFrame = get("mainIFrame.id");
+
+    mainIFrame.src = url.replace("http", "https").replace("ss", "s");
+    mainIFrame.onload = function() {
+        contentFrame.style.display = "";
+    }
+
 }
 
 function replaceStyle() {
@@ -353,6 +288,42 @@ function replaceStyle() {
     }
 }
 
+function autoDaysSign() {
+    try {
+        const JD_sign = get("JD_sign.id");
+        if (JD_sign == null) return;
+        if (((JD_sign.childNodes[1].innerHTML).replace(/\s*/g, "")) === "签到") {
+            JD_sign.click();
+            logd("自动签到成功！");
+        } else {
+            logd("今日已签到！");
+        }
+    } catch (e) {
+        logd("签到失败？ " + e);
+    }
+}
+
+function createIframe() {
+    const contentFrame = document.createElement("div");
+    const mainIFrame = document.createElement("iframe");
+    const iframe_settings = document.createElement("div");
+
+    iframe_settings.innerHTML = "<p id=\"closeIFrame\">关闭</p>";
+    iframe_settings.id = "iframe_settings";
+
+    mainIFrame.id = "mainIFrame";
+    contentFrame.id = "contentFrame";
+
+    mainIFrame.frameborder = "0";
+    contentFrame.style.display = "none";
+    contentFrame.appendChild(iframe_settings);
+    contentFrame.appendChild(mainIFrame);
+    get("html").tag.to().appendChild(contentFrame);
+    closeIFrame.onclick = function() {
+        contentFrame.style.display = "none";
+    }
+}
+
 function initLoadPage() {
 
     const rep = function(e) {
@@ -402,3 +373,58 @@ function initLoadPage() {
         });
     }
 }
+
+/* ---------------------Script1--------------------- */
+function gotoScript2() {}
+/* ---------------------Script2--------------------- */
+function initContent() {
+    const html = get("html").tag.to();
+    logd("调用？")
+    const thisSettings = document.createElement("div");
+    thisSettings.innerHTML = "<p id=\"openNewTab\">新建标签打开</p>" +
+        "<p id=\"copyUrl\">复制链接</p>";
+    thisSettings.id = "thisSettings";
+    html.appendChild(thisSettings);
+    const openNewTab = get("openNewTab.id");
+    const copyUrl = get("copyUrl.id");
+    openNewTab.onclick = function() {
+        window.open(window.location.href, "_blank");
+    }
+    copyUrl.onclick = function() {
+        const input = document.createElement("input");
+        document.body.appendChild(input);
+        const thisUrl = window.location.href;
+        input.setAttribute("value", thisUrl);
+        input.select();
+        document.execCommand("copy");
+        document.body.removeChild(input);
+        copyUrl.innerText = window.location.href + ": 复制成功！";
+        setTimeout(function() {
+            copyUrl.innerText = "复制链接";
+        }, 3000);
+    }
+
+
+    window.onload = function() {
+        initOverload();
+        get("hd.id").innerHTML = "";
+        get("comiis_footer.class").to().innerHTML = "";
+        get("html").tag.to().style.display = "";
+        setStyles(get("body.tag").to(), "background: #fffffff0");
+        try { setStyles(get("comiis_lbox.class").to(), "display: none"); } catch (e) {}
+        try { get("boardnavr.class").to().className = ".boardnavr_comiis_width"; } catch (e) {}
+    }
+}
+
+function initOverload() {
+    logd(get("a.tag").all())
+    setCallBackOnForeach(get("a.tag").all(), function(e, n) {
+        const url = e.href.replace("http", "https").replace("ss", "s");
+        logd(url)
+        e.onclick = function() {
+            window.location.href = url;
+        }
+        e.removeAttribute("href");
+    });
+}
+/* ---------------------Script2--------------------- */
