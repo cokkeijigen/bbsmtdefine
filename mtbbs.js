@@ -277,7 +277,7 @@ function setMainIFrame(url) {
         contentFrame.style.display = "";
     }
 
-    if (url.search("binmt.cc/doc/") != -1) {
+    if (url.search("binmt.cc/doc/") != -1 || url.search("sitemap.xml") != -1) {
         const openNewTab = get("openNewTab.id");
         openNewTab.style.display = "block";
         openNewTab.onclick = function() {
