@@ -226,8 +226,6 @@ function intWindowOnload() {
     window.onload = function() {
         html.style.opacity = "0";
 
-        try { initPublic(); } catch (e) {}
-
         // 设置背景图片
         try { setBackgroundImage("https://s1.ax1x.com/2022/08/14/vNbMp4.png"); } catch (e) {}
         // 替换样式
@@ -387,6 +385,8 @@ function initLoadPage() {
         e.removeAttribute("href");
     }
 
+    const url = window.location.href;
+
     { // 导航栏内容
         const comiis_nvbox = get("comiis_nvbox.class").to();
         setCallBackOnForeach(get("li.tag", comiis_nvbox).all(), function(e, n) {
@@ -407,8 +407,13 @@ function initLoadPage() {
         });
 
     } { // 中间部分
-        try {
 
+        /* 预览帖子 */
+        if (url.search("thread") != -1 || url.search("mod=viewthread") != -1) return (function() {
+
+        })();
+
+        try {
             setCallBackOnForeach(getTagA(get("fl.class").to()), (e, n) => rep(e));
         } catch (e) {}
         try {
@@ -427,7 +432,7 @@ function initLoadPage() {
         } catch (e) {}
     } { // 右边部分
         setCallBackOnForeach(getTagA(get("comiis_rollbox.id")), (e, n) => rep(e));
-    } { // 最低部
+    } { // 最底部
         setCallBackOnForeach(getTagA(get("frt.id")), (e, n) => rep(e));
     }
 }
