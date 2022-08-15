@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MT论坛加强插件
 // @namespace    http://tampermonkey.net/
-// @version      0.7
+// @version      0.6
 // @description  总之打点字上去!
 // @author       CokkezigenDAR
 // @match        *bbs.binmt.cc/*
@@ -484,6 +484,7 @@ function initContent() {
 
 function initOverload() {
     setCallBackOnForeach(get("a.tag").all(), function(e, n) {
+        if (e.innerText == "[复制链接]") return;
         const url = e.href.replace("http", "https").replace("ss", "s");
         e.onclick = function() {
             if (url.search("binmt") != -1)
