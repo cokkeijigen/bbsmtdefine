@@ -214,15 +214,15 @@ function intWindowOnload() {
         initPublic();
 
         // 设置背景图片
-        setBackgroundImage("https://s1.ax1x.com/2022/08/14/vNbMp4.png");
+        try { setBackgroundImage("https://s1.ax1x.com/2022/08/14/vNbMp4.png"); } catch (e) {}
         // 替换样式
-        replaceStyle();
+        try { replaceStyle(); } catch (e) {}
         // 自动签到
-        autoDaysSign();
+        try { autoDaysSign(); } catch (e) {}
         // 初始化子窗口
-        createIframe();
+        try { createIframe(); } catch (e) {}
         // 重载标签加载页面
-        initLoadPage();
+        try { initLoadPage(); } catch (e) {}
 
         html.style.opacity = "1";
     }
@@ -368,6 +368,8 @@ function initLoadPage() {
             }
             e.innerHTML = content.replaceAll(url, "");
         });
+
+        rep(get("a.tag", get("comiis_key.id")).to());
 
         const comiis_key_menu = get("comiis_key_menu.id");
         setCallBackOnForeach(get("a.tag", comiis_key_menu).all(), function(e, n) {
