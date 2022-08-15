@@ -377,6 +377,7 @@ function createIframe() {
 function initLoadPage() {
 
     const rep = function(e) {
+        if (e.innerText == "发消息") return;
         const url = e.href;
         if (url.length < 1) return;
         e.onclick = function() {
@@ -384,8 +385,6 @@ function initLoadPage() {
         }
         e.removeAttribute("href");
     }
-
-    const url = window.location.href;
 
     { // 导航栏内容
         const comiis_nvbox = get("comiis_nvbox.class").to();
