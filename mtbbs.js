@@ -208,8 +208,8 @@ function gotoScript1() {}
 /* ---------------------Script1--------------------- */
 function intWindowOnload() {
     const html = get("html").tag.to();
-    html.style.opacity = "0";
     window.onload = function() {
+        html.style.opacity = "0";
 
         initPublic();
 
@@ -382,6 +382,9 @@ function initLoadPage() {
             });
         } catch (e) {}
         try {
+            setCallBackOnForeach(get("a.tag", get("y.class", get("pt.id")).to()).all(), (e, n) => rep(e));
+        } catch (e) {}
+        try {
             setCallBackOnForeach(get("a.tag", get("ul.tag", get("online.id")).to()).all(), function(e, n) {
                 rep(e);
             });
@@ -441,7 +444,6 @@ function initContent() {
         window.history.back();
     }
 
-    html.style.opacity = "0";
     window.onload = function() {
         initOverload();
         initPublic();
@@ -450,7 +452,6 @@ function initContent() {
         setStyles(get("body.tag").to(), "background: #fffffff0");
         try { setStyles(get("comiis_lbox.class").to(), "display: none"); } catch (e) {}
         try { get("boardnavr.class").to().className = ".boardnavr_comiis_width"; } catch (e) {}
-        html.style.opacity = "1";
     }
 }
 
