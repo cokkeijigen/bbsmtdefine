@@ -12,7 +12,7 @@
 (function() {
     initCssStyleContent(); // css style
     if (top != self) {
-        // Script1  字子口
+        // Script1  子窗口
         initContent();
     } else if (top == self) {
         // Script2   主窗口
