@@ -369,6 +369,12 @@ function initLoadPage() {
             }
             e.innerHTML = content.replaceAll(url, "");
         });
+
+        const comiis_key_menu = get("comiis_key_menu.id");
+        setCallBackOnForeach(get("a.tag", comiis_key_menu).all(), function(e, n) {
+            rep(e);
+        });
+
     } { // 中间部分
         try {
             setCallBackOnForeach(get("a.tag", get("fl.class").to()).all(), function(e, n) {
