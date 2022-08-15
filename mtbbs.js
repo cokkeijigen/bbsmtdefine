@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MT论坛加强插件
 // @namespace    http://tampermonkey.net/
-// @version      0.5
+// @version      0.6
 // @description  总之打点字上去!
 // @author       CokkezigenDAR
 // @match        *bbs.binmt.cc/*
@@ -12,9 +12,11 @@
 (function() {
     initStyleClass(); // css style
 
-    if (top != self) { // Script1
+    if (top != self) {
+        // Script1  主窗口
         initContent();
-    } else if (top == self) { // Script2
+    } else if (top == self) {
+        // Script2   子窗口
         intWindowOnload();
     }
 })();
@@ -96,6 +98,15 @@ function initStyleClass() {
         ]
     }, {
         "boardnavr_comiis_width": ["float: left", "margin-left: -300px"]
+    }, {
+        "#search_btn": [
+            "background: url(https://cdn-bbs.mt2.cn/template/comiis_mi/img/comiis_dss.png) no-repeat center",
+            "width: 40px",
+            "height: 50px",
+            "margin-right: 10px"
+        ]
+    }, {
+        "#search_btn:hover": ["cursor: pointer"]
     }));
 }
 
@@ -223,10 +234,23 @@ function intWindowOnload() {
         try { createIframe(); } catch (e) {}
         // 重载标签加载页面
         try { initLoadPage(); } catch (e) {}
+        // 替换搜索按钮
+        try { rpeSearchBtn() } catch (e) {}
 
         html.style.opacity = "1";
     }
 }
+
+function rpeSearchBtn() {
+    // 将原来的按钮隐藏
+    const btn = get("comiis_sousuo.id");
+    if (btn != null) btn.style.display = "none";
+    const comiis_cjpimg = get("comiis_cjpimg.class").to();
+    comiis_cjpimg.innerHTML = "<div id=\"search_btn\"></div>";
+    get("search_btn.id").onclick = () =>
+        setMainIFrame("https://bbs.binmt.cc/search.php");
+}
+
 
 function setBackgroundImage(url) {
     setStyles(get("body.tag").to(), ListToCssText(
@@ -446,9 +470,10 @@ function initContent() {
 
     window.onload = function() {
         initPublic();
-        get("hd.id").innerHTML = "";
-        get("comiis_footer.class").to().innerHTML = "";
-        setStyles(get("body.tag").to(), "background: #fffffff0");
+        try { get("hd.id").style.display = "none"; } catch (e) {}
+        try { get("toptb.id").style.display = "none"; } catch (e) {}
+        try { get("comiis_footer.class").to().style.display = "none"; } catch (e) {}
+        try { setStyles(get("body.tag").to(), "background: #fffffff0"); } catch (e) {}
         try { setStyles(get("comiis_lbox.class").to(), "display: none"); } catch (e) {}
         try { get("boardnavr.class").to().className = ".boardnavr_comiis_width"; } catch (e) {}
         initOverload();
