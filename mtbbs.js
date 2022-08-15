@@ -24,6 +24,11 @@ gotoScript1();
 gotoScript2();
 /* ---------------------public--------------------- */
 
+function initPublic() {
+    if (window.location.href.search("mod=guide&view=my") != -1)
+        get("append_parent.id").style.display = "none";
+}
+
 function initStyleClass() {
     /* 增加class样式 */
     addStyles(MapToStyleClassText({
@@ -220,7 +225,7 @@ function intWindowOnload() {
     const html = get("html").tag.to();
     window.onload = function() {
         html.style.opacity = "0";
-
+        try { initPublic(); } catch (e) {}
         // 设置背景图片
         try { setBackgroundImage("https://s1.ax1x.com/2022/08/14/vNbMp4.png"); } catch (e) {}
         // 替换样式
@@ -484,7 +489,7 @@ function initContent() {
 
 function initOverload() {
     setCallBackOnForeach(get("a.tag").all(), function(e, n) {
-        if (e.innerText == "[复制链接]") return;
+        if (e.innerText == "[复制链接]" || e.innerText == "发消息") return;
         const url = e.href.replace("http", "https").replace("ss", "s");
         e.onclick = function() {
             if (url.search("binmt") != -1)
