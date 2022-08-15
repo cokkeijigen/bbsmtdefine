@@ -30,7 +30,7 @@ function initPublic() {
 function initStyleClass() {
     /* 增加class样式 */
     addStyles(MapToStyleClassText({
-        "@keyframes fade-in": ["0% { opacity: 0;}", "100% {opacity: 1;}"]
+        "@keyframes fade-in": ["0% { opacity: 0;}100% {opacity: 1;}"]
     }, {
         "*": ["animation: fade-in", "animation-duration: 0.5s"]
     }, {
@@ -69,8 +69,9 @@ function initStyleClass() {
             "text-align: center",
             "position: fixed",
             "bottom: 0",
+            "animation: none",
             "z-index: 99999",
-            "right: 120px",
+            "right: 60px",
             "opacity: 0"
         ]
     }, {
@@ -252,7 +253,9 @@ function setMainIFrame(url) {
         openNewTab.onclick = function() {
             window.open(mainIFrame.src, "_blank");
         }
-    }
+    } else
+        openNewTab.style.display = "none";
+
 }
 
 
@@ -327,7 +330,7 @@ function createIframe() {
     const mainIFrame = document.createElement("iframe");
     const iframe_settings = document.createElement("div");
 
-    iframe_settings.innerHTML = "<p id=\"closeIFrame\">关闭</p>" + "<p id=\"goBack\"><-</p>" +
+    iframe_settings.innerHTML = "<p id=\"closeIFrame\">关闭</p>" +
         "<p id=\"openNewTab\" style=\"display: none\">新建标签打开</p>";
     iframe_settings.id = "iframe_settings";
 
@@ -342,19 +345,6 @@ function createIframe() {
     get("closeIFrame.id").onclick = function() {
         contentFrame.style.display = "none";
     }
-    const goBack = get("goBack.id");
-    goBack.onclick = function() {
-        mainIFrame.contentWindow.history.back();
-        // logd(mainIFrame.contentWindow.history.state)
-        // if (mainIFrame.contentWindow.history.state.position == 0) {
-        //     goBack.innerText = "已经无法再后退了啦ヽ(･ω･´ﾒ)"
-        //     setTimeout(function() {
-        //         goBack.innerText = "<-";
-        //     }, 3000);
-        // } else
-        //     mainIFrame.contentWindow.history.back();
-    }
-
 }
 
 function initLoadPage() {
@@ -415,12 +405,14 @@ function gotoScript2() {}
 function initContent() {
     const html = get("html").tag.to();
     const thisSettings = document.createElement("div");
-    thisSettings.innerHTML = "<p id=\"openNewTab\">新建标签打开</p>" +
+    thisSettings.innerHTML = "<p id=\"goBack\"><-</p>" +
+        "<p id=\"openNewTab\">新建标签打开</p>" +
         "<p id=\"copyUrl\">复制链接</p>";
     thisSettings.id = "thisSettings";
     html.appendChild(thisSettings);
     const openNewTab = get("openNewTab.id");
     const copyUrl = get("copyUrl.id");
+    const goBack = get("goBack.id");
     openNewTab.onclick = function() {
         window.open(window.location.href, "_blank");
     }
@@ -438,6 +430,9 @@ function initContent() {
         setTimeout(function() {
             copyUrl.innerText = "复制链接";
         }, 3000);
+    }
+    goBack.onclick = function() {
+        window.history.back();
     }
 
     html.style.opacity = "0";
