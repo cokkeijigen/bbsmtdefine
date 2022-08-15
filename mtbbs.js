@@ -13,10 +13,10 @@
     initStyleClass(); // css style
 
     if (top != self) {
-        // Script1  主窗口
+        // Script1  字子口
         initContent();
     } else if (top == self) {
-        // Script2   子窗口
+        // Script2   主窗口
         intWindowOnload();
     }
 })();
@@ -155,6 +155,10 @@ function get() {
     if (arguments.length == 2) return result(arguments[0], arguments[1])
 }
 
+function getTagA(obj) {
+    return get("a.tag", obj).all();
+}
+
 function logd(text) {
     console.log(text);
 }
@@ -264,6 +268,8 @@ function setBackgroundImage(url) {
 }
 
 function setMainIFrame(url) {
+    if (url.search("binmt") == -1)
+        return window.open(url, "_blank");
     url = url.replace("http", "https").replace("ss", "s");
     const mainIFrame = get("mainIFrame.id");
     mainIFrame.src = url;
@@ -402,37 +408,32 @@ function initLoadPage() {
 
     } { // 中间部分
         try {
-            setCallBackOnForeach(get("a.tag", get("fl.class").to()).all(), function(e, n) {
-                rep(e);
-            });
+
+            setCallBackOnForeach(getTagA(get("fl.class").to()), (e, n) => rep(e));
         } catch (e) {}
         try {
-            setCallBackOnForeach(get("a.tag", get("y.class", get("pt.id")).to()).all(), (e, n) => rep(e));
+            setCallBackOnForeach(getTagA(get("y.class", get("pt.id")).to()), (e, n) => rep(e));
         } catch (e) {}
         try {
-            setCallBackOnForeach(get("a.tag", get("ul.tag", get("online.id")).to()).all(), function(e, n) {
-                rep(e);
-            });
+            setCallBackOnForeach(getTagA(get("ul.tag", get("online.id")).to()), (e, n) => rep(e));
         } catch (e) {}
         try { // 导读界面
             setCallBackOnForeach(get("bm_c.class").all(), function(e, n) {
-                setCallBackOnForeach(get("a.tag", e).all(), (e, n) => rep(e));
+                setCallBackOnForeach(getTagA(e), (e, n) => rep(e));
             })
         } catch (e) {}
         try { // 收藏界面
-            setCallBackOnForeach(get("a.tag", get("favorite_ul.id")).all(), function(e, n) {
-                rep(e);
-            })
+            setCallBackOnForeach(getTagA(get("favorite_ul.id")), (e, n) => rep(e));
         } catch (e) {}
     } { // 右边部分
-        setCallBackOnForeach(get("a.tag", get("comiis_rollbox.id")).all(), function(e, n) {
-            rep(e);
-        });
+        setCallBackOnForeach(getTagA(get("comiis_rollbox.id")), (e, n) => rep(e));
+    } { // 最低部
+        setCallBackOnForeach(getTagA(get("frt.id")), (e, n) => rep(e));
     }
 }
 
 /* ---------------------Script1--------------------- */
-function gotoScript2() {}
+function gotoScript2() {} // 子窗口
 /* ---------------------Script2--------------------- */
 
 function initContent() {
