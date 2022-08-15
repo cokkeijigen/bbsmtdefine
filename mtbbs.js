@@ -378,6 +378,7 @@ function initLoadPage() {
 
     const rep = function(e) {
         if (e.innerText == "发消息") return;
+        if (e.href == "javascript:;") return;
         const url = e.href;
         if (url.length < 1) return;
         e.onclick = function() {
@@ -504,6 +505,7 @@ function initContent() {
 function initOverload() {
     setCallBackOnForeach(get("a.tag").all(), function(e, n) {
         if (e.innerText == "[复制链接]" || e.innerText == "发消息") return;
+        if (e.href == "javascript:;") return;
         const url = e.href.replace("http", "https").replace("ss", "s");
         e.onclick = function() {
             if (url.search("binmt") != -1)
