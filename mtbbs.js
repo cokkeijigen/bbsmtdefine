@@ -30,8 +30,8 @@ function initPublic() {
 }
 
 function initStyleClass() {
-    /* 增加class样式 */
-    addStyles(MapToStyleClassText({
+    /* 增加css样式 */
+    addStyles(MapToStyleCssText({
         "@keyframes fade-in": ["0% { opacity: 0;}100% {opacity: 1;}"]
     }, {
         "*": ["animation: fade-in", "animation-duration: 0.5s"]
@@ -97,7 +97,7 @@ function initStyleClass() {
             "box-shadow: 0 0 8px #ffefaa"
         ]
     }, {
-        "boardnavr_comiis_width": ["float: left", "margin-left: -300px"]
+        ".boardnavr_comiis_width": ["float: left", "margin-left: -300px"]
     }, {
         "#search_btn": [
             "background: url(https://cdn-bbs.mt2.cn/template/comiis_mi/img/comiis_dss.png) no-repeat center",
@@ -183,7 +183,7 @@ function addStyles(cssText) {
     get("html").tag.to().appendChild(style);
 }
 
-function MapToStyleClassText(...maps) {
+function MapToStyleCssText(...maps) {
     var result = "";
     var map = null;
     for (var i = 0; i < maps.length; i++) {
@@ -225,6 +225,7 @@ function intWindowOnload() {
     const html = get("html").tag.to();
     window.onload = function() {
         html.style.opacity = "0";
+
         try { initPublic(); } catch (e) {}
         // 设置背景图片
         try { setBackgroundImage("https://s1.ax1x.com/2022/08/14/vNbMp4.png"); } catch (e) {}
