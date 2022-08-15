@@ -416,24 +416,38 @@ function initLoadPage() {
         try {
             setCallBackOnForeach(getTagA(get("fl.class").to()), (e, n) => rep(e));
         } catch (e) {}
+
         try {
             setCallBackOnForeach(getTagA(get("y.class", get("pt.id")).to()), (e, n) => rep(e));
         } catch (e) {}
+
         try {
             setCallBackOnForeach(getTagA(get("ul.tag", get("online.id")).to()), (e, n) => rep(e));
         } catch (e) {}
+
         try { // 导读界面
             setCallBackOnForeach(get("bm_c.class").all(), function(e, n) {
                 setCallBackOnForeach(getTagA(e), (e, n) => rep(e));
             })
         } catch (e) {}
+
         try { // 收藏界面
             setCallBackOnForeach(getTagA(get("favorite_ul.id")), (e, n) => rep(e));
         } catch (e) {}
+
     } { // 右边部分
         setCallBackOnForeach(getTagA(get("comiis_rollbox.id")), (e, n) => rep(e));
     } { // 最底部
-        setCallBackOnForeach(getTagA(get("frt.id")), (e, n) => rep(e));
+        try {
+            setCallBackOnForeach(getTagA(get("newspecial_menu.id")), (e, n) => rep(e));
+        } catch (e) {}
+        try {
+            setCallBackOnForeach(getTagA(get("f_pst.id")), (e, n) => rep(e));
+        } catch (e) {}
+        try {
+            setCallBackOnForeach(getTagA(get("frt.id")), (e, n) => rep(e));
+        } catch (e) {}
+
     }
 }
 
