@@ -10,7 +10,7 @@
 // ==/UserScript==
 
 (function() {
-    initStyleClass(); // css style
+    initCssStyleContent(); // css style
     if (top != self) {
         // Script1  字子口
         initContent();
@@ -29,10 +29,10 @@ function initPublic() {
         get("append_parent.id").style.display = "none";
 }
 
-function initStyleClass() {
+function initCssStyleContent() {
     /* 增加css样式 */
     addStyles(MapToStyleCssText({
-        "@keyframes fade-in": ["0% { opacity: 0;}100% {opacity: 1;}"]
+        "@keyframes fade-in": ["0% { opacity: 0;} 100% {opacity: 1;}"]
     }, {
         "*": ["animation: fade-in", "animation-duration: 0.5s"]
     }, {
