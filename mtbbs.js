@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MT论坛加强插件
 // @namespace    http://tampermonkey.net/
-// @version      0.6
+// @version      0.7
 // @description  总之打点字上去!
 // @author       CokkezigenDAR
 // @match        *bbs.binmt.cc/*
@@ -11,7 +11,6 @@
 
 (function() {
     initStyleClass(); // css style
-
     if (top != self) {
         // Script1  字子口
         initContent();
@@ -24,10 +23,6 @@
 gotoScript1();
 gotoScript2();
 /* ---------------------public--------------------- */
-
-function initPublic() {
-    get("append_parent.id").style.display = "none";
-}
 
 function initStyleClass() {
     /* 增加class样式 */
@@ -408,10 +403,11 @@ function initLoadPage() {
 
     } { // 中间部分
 
-        /* 预览帖子 */
-        if (url.search("thread") != -1 || url.search("mod=viewthread") != -1) return (function() {
-
-        })();
+        try {
+            setCallBackOnForeach(get("comiis_vrx.class").all(), (e, n) => {
+                setCallBackOnForeach(getTagA(e), (e, n) => rep(e));
+            })
+        } catch (e) {}
 
         try {
             setCallBackOnForeach(getTagA(get("fl.class").to()), (e, n) => rep(e));
