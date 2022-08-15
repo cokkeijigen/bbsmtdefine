@@ -226,7 +226,7 @@ function intWindowOnload() {
     window.onload = function() {
         html.style.opacity = "0";
 
-        initPublic();
+        try { initPublic(); } catch (e) {}
 
         // 设置背景图片
         try { setBackgroundImage("https://s1.ax1x.com/2022/08/14/vNbMp4.png"); } catch (e) {}
@@ -470,7 +470,7 @@ function initContent() {
     }
 
     window.onload = function() {
-        initPublic();
+        try { initPublic(); } catch (e) {}
         try { get("hd.id").style.display = "none"; } catch (e) {}
         try { get("toptb.id").style.display = "none"; } catch (e) {}
         try { get("comiis_footer.class").to().style.display = "none"; } catch (e) {}
