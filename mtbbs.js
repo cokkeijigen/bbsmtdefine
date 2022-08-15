@@ -258,7 +258,6 @@ function setMainIFrame(url) {
 
 }
 
-
 function replaceStyle() {
     try {
         { // 头部导航栏
@@ -410,7 +409,6 @@ function initLoadPage() {
 function gotoScript2() {}
 /* ---------------------Script2--------------------- */
 
-
 function initContent() {
     const html = get("html").tag.to();
     const thisSettings = document.createElement("div");
@@ -445,16 +443,15 @@ function initContent() {
     }
 
     window.onload = function() {
-        initOverload();
         initPublic();
         get("hd.id").innerHTML = "";
         get("comiis_footer.class").to().innerHTML = "";
         setStyles(get("body.tag").to(), "background: #fffffff0");
         try { setStyles(get("comiis_lbox.class").to(), "display: none"); } catch (e) {}
         try { get("boardnavr.class").to().className = ".boardnavr_comiis_width"; } catch (e) {}
+        initOverload();
     }
 }
-
 
 function initOverload() {
     setCallBackOnForeach(get("a.tag").all(), function(e, n) {
