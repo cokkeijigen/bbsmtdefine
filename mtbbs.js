@@ -442,7 +442,8 @@ function initLoadPage() {
             setCallBackOnForeach(getTagA(get("newspecial_menu.id")), (e, n) => rep(e));
         } catch (e) {}
         try {
-            setCallBackOnForeach(getTagA(get("f_pst.id")), (e, n) => rep(e));
+            rep(get("a.tag", get("y.class", get("bar.class").to()).to()).to());
+            rep(get("a.tag", get("pnpost.class").to()).to());
         } catch (e) {}
         try {
             setCallBackOnForeach(getTagA(get("frt.id")), (e, n) => rep(e));
