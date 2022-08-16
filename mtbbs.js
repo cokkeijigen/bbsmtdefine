@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MT论坛加强插件
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      0.7
 // @description  总之打点字上去!
 // @author       CokkezigenDAR
 // @match        *bbs.binmt.cc/*
@@ -72,9 +72,9 @@ function initCssStyleContent() {
             "opacity: 0"
         ]
     }, {
-        "#thisSettings:hover": ["opacity: 1"]
+        "#thisSettings:hover, #onReLoadBtn:hover": ["opacity: 1"]
     }, {
-        "#closeIFrame, #openNewTab, #copyUrl, #goBack": [
+        "#closeIFrame, #openNewTab, #copyUrl, #goBack, #onReLoadBtn": [
             "float: right",
             "padding: 10px 15px",
             "margin: 5px 10px",
@@ -86,7 +86,13 @@ function initCssStyleContent() {
             "box-shadow: 0 0 8px #0084ff"
         ]
     }, {
-        "#closeIFrame:hover, #openNewTab:hover, #copyUrl:hover, #goBack:hover": [
+        "#onReLoadBtn": [
+            "right: 0; top: 0;",
+            "position: fixed",
+            "opacity: 0"
+        ]
+    }, {
+        "#closeIFrame:hover, #openNewTab:hover, #copyUrl:hover, #goBack:hover, #onReLoadBtn:hover": [
             "cursor: pointer",
             "background-color: #000c2e",
             "box-shadow: 0 0 8px #ffefaa"
@@ -484,6 +490,14 @@ function initContent() {
     goBack.onclick = function() {
         window.history.back();
     }
+
+    const reLoad = document.createElement("div");
+    reLoad.innerText = "刷新";
+    reLoad.id = "onReLoadBtn";
+    reLoad.onclick = function() {
+        window.location.reload();
+    }
+    html.appendChild(reLoad);
 
     window.onload = function() {
         try { get("hd.id").style.display = "none"; } catch (e) {}
