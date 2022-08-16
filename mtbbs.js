@@ -454,6 +454,8 @@ function gotoScript2() {} // 子窗口
 /* ---------------------Script2--------------------- */
 
 function initContent() {
+    addStyles("#hd,#toptb,.comiis_footer{display:none}");
+
     const html = get("html").tag.to();
     const thisSettings = document.createElement("div");
     thisSettings.innerHTML = "<p id=\"goBack\"><-</p>" +
@@ -495,9 +497,6 @@ function initContent() {
     html.appendChild(reLoad);
 
     window.onload = function() {
-        try { get("hd.id").style.display = "none"; } catch (e) {}
-        try { get("toptb.id").style.display = "none"; } catch (e) {}
-        try { get("comiis_footer.class").to().style.display = "none"; } catch (e) {}
         try { setStyles(get("body.tag").to(), "background: #fffffff0"); } catch (e) {}
         try { setStyles(get("comiis_lbox.class").to(), "display: none"); } catch (e) {}
         try { get("boardnavr.class").to().className = ".boardnavr_comiis_width"; } catch (e) {}
