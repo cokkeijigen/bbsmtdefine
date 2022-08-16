@@ -454,7 +454,9 @@ function gotoScript2() {} // 子窗口
 /* ---------------------Script2--------------------- */
 
 function initContent() {
-    addStyles("#hd,#toptb,.comiis_footer{display:none}");
+
+    addStyles("#hd,#toptb,.comiis_footer,.sd.pph,#sd{display:none}");
+    addStyles(".comiis_wide .ct2 .mn{width: 100%}");
 
     const html = get("html").tag.to();
     const thisSettings = document.createElement("div");
