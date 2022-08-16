@@ -378,7 +378,7 @@ function createIframe() {
 function initLoadPage() {
 
     const rep = function(e) {
-        if (e.innerText == "发消息" || e.innerText == "记录") return;
+        if (e.innerText == "发消息" || e.innerText == "记录" || e.innerText == "[记录]") return;
         if (e.href == "javascript:;") return;
         const url = e.href;
         if (url.length < 1) return;
@@ -512,7 +512,8 @@ function initContent() {
 
 function initOverload() {
     setCallBackOnForeach(get("a.tag").all(), function(e, n) {
-        if (e.innerText == "[复制链接]" || e.innerText == "发消息" || e.innerText == "记录") return;
+        if (e.innerText == "[复制链接]" || e.innerText == "发消息" || e.innerText == "记录" ||
+            e.innerText == "[记录]") return;
         if (e.href == "javascript:;") return;
         const url = e.href.replace("http", "https").replace("ss", "s");
         e.onclick = function() {
