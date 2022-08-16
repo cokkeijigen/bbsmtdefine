@@ -392,12 +392,7 @@ function initLoadPage() {
         const comiis_nvbox = get("comiis_nvbox.class").to();
         setCallBackOnForeach(get("li.tag", comiis_nvbox).all(), function(e, n) {
             if (n <= 1) return;
-            let content = e.innerHTML + "";
-            let url = content.split(" ")[1];
-            e.onclick = function() {
-                setMainIFrame(url.replace("href=", "").replaceAll("&amp;", "&").replaceAll("\"", ""));
-            }
-            e.innerHTML = content.replaceAll(url, "");
+            rep(get("a.tag", e).to());
         });
 
         rep(get("a.tag", get("comiis_key.id")).to());
