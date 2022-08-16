@@ -228,7 +228,7 @@ function intWindowOnload() {
 
         try { initPublic(); } catch (e) {}
         // 设置背景图片
-        try { setBackgroundImage("https://s1.ax1x.com/2022/08/14/vNbMp4.png"); } catch (e) {}
+        try { setBackgroundImage("https://s1.ax1x.com/2022/08/16/vwcW8I.jpg"); } catch (e) {}
         // 替换样式
         try { replaceStyle(); } catch (e) {}
         // 自动签到
