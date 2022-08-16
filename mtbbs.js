@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MT论坛加强插件
 // @namespace    http://tampermonkey.net/
-// @version      0.7
+// @version      1.0
 // @description  总之打点字上去!
 // @author       CokkezigenDAR
 // @match        *bbs.binmt.cc/*
