@@ -24,11 +24,6 @@ gotoScript1();
 gotoScript2();
 /* ---------------------public--------------------- */
 
-function initPublic() {
-    if (window.location.href.search("mod=guide&view=my") != -1)
-        get("append_parent.id").style.display = "none";
-}
-
 function initCssStyleContent() {
     /* 增加css样式 */
     addStyles(MapToStyleCssText({
@@ -226,7 +221,6 @@ function intWindowOnload() {
     window.onload = function() {
         html.style.opacity = "0";
 
-        try { initPublic(); } catch (e) {}
         // 设置背景图片
         try { setBackgroundImage("https://s1.ax1x.com/2022/08/16/vwcW8I.jpg"); } catch (e) {}
         // 替换样式
@@ -384,8 +378,8 @@ function initLoadPage() {
         if (url.length < 1) return;
         e.onclick = function() {
             setMainIFrame(url);
+            return false
         }
-        e.removeAttribute("href");
     }
 
     { // 导航栏内容
@@ -492,7 +486,6 @@ function initContent() {
     }
 
     window.onload = function() {
-        try { initPublic(); } catch (e) {}
         try { get("hd.id").style.display = "none"; } catch (e) {}
         try { get("toptb.id").style.display = "none"; } catch (e) {}
         try { get("comiis_footer.class").to().style.display = "none"; } catch (e) {}
@@ -512,8 +505,8 @@ function initOverload() {
             if (url.search("binmt") != -1)
                 window.location.href = url; // 站内地址可以继续使用子窗口访问
             else window.open(url, "_blank"); // 站外的地址新建标签页打开
+            return false;
         }
-        e.removeAttribute("href");
     });
 }
 /* ---------------------Script2--------------------- */
