@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MT论坛加强插件
 // @namespace    http://tampermonkey.net/
-// @version      0.7
+// @version      1.0
 // @description  总之打点字上去!
 // @author       CokkezigenDAR
 // @match        *bbs.binmt.cc/*
@@ -222,7 +222,7 @@ function intWindowOnload() {
         html.style.opacity = "0";
 
         // 设置背景图片
-        try { setBackgroundImage("https://s1.ax1x.com/2022/08/16/vwcW8I.jpg"); } catch (e) {}
+        try { setBackgroundImage("http://cdn.img.kggzs.cn/uploads/img/2022/18/202262fb262b7d4e3.jpg"); } catch (e) {}
         // 替换样式
         try { replaceStyle(); } catch (e) {}
         // 自动签到
