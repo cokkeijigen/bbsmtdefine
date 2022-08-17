@@ -1,9 +1,8 @@
 # MT论坛增强插件 v1.1
 
 目前支持的功能：<br>
-1.子窗口打开站内链接
-2.替换背景图片
-3.自动签到
+1.子窗口打开站内链接 、2.替换背景图片、3.自动签到等...
+---
 ![Image text](https://github.com/cokkeijigen/bbsmtdefine/blob/main/image1.png)<br>
 ![Image text](https://github.com/cokkeijigen/bbsmtdefine/blob/main/image2.png)<br>
 # 使用方法：
