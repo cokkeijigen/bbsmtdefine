@@ -5,7 +5,7 @@
 2.替换背景图片
 3.自动签到
 ![Image text](https://github.com/cokkeijigen/bbsmtdefine/blob/main/image1.png)<br>
-![Image text](http://cdn.img.kggzs.cn/uploads/img/2022/18/202262fb26eb75605.png)<br>
+![Image text](https://github.com/cokkeijigen/bbsmtdefine/blob/main/image2.png)<br>
 使用方法：浏览器下载油猴插件<br>
 ![Image text](http://cdn.img.kggzs.cn/uploads/img/2022/18/202262fb274674f72.png)<br>
 然后选择添加新脚本<br>
