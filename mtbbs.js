@@ -31,6 +31,11 @@ function initCssStyleContent() {
     }, {
         "*": ["animation: fade-in", "animation-duration: 0.5s"]
     }, {
+        "*::selection": [
+            "background-color: rgba(255, 168, 219, 0.192)",
+            " color: rgb(226, 43, 104)"
+        ]
+    }, {
         "a:hover": ["cursor: pointer"]
     }, {
         "#contentFrame": [
@@ -50,7 +55,6 @@ function initCssStyleContent() {
             "scrolling:no",
             "border-radius:15px",
             "width: 100%", "height: 100%",
-            "transform: translate(-50%, -50%)",
             "background-color: #00000000",
             "box-shadow: 0 0 8px #0084ff"
         ]
@@ -84,6 +88,25 @@ function initCssStyleContent() {
             "background-color: #6790ff",
             "border-radius: 20px",
             "box-shadow: 0 0 8px #0084ff"
+        ]
+    }, {
+        "#loadingText": [
+            "animation: fade-in 0.1s 0.1s infinite alternate",
+            "position: fixed",
+            "text-align: center",
+            "display: block",
+            "top: 50%;left: 45%"
+        ]
+    }, {
+        "#loadingText>p": [
+            "font-weight: bold",
+            "font-size: 25px",
+            "letter-spacing: 0",
+            "text-shadow: 0 0 5px #c5c8ff",
+            "color: #ff9ed3",
+            "background-image: -webkit-linear-gradient(bottom, #94adff, #77ffdd)",
+            "-webkit-background-clip: text",
+            "-webkit-text-fill-color: transparent"
         ]
     }, {
         "#onReLoadBtn": [
@@ -189,9 +212,11 @@ function MapToStyleCssText(...maps) {
     var map = null;
     for (var i = 0; i < maps.length; i++) {
         map = maps[i];
-        for (var key in map)
-            result += key + "{" + map[key].toString().replaceAll(",", ";") + "}"
+        for (var key in map) {
+            result += key + "{" + ListToCssText(map[key]) + "}";
+        }
     }
+    logd(result)
     return result;
 }
 
@@ -212,11 +237,17 @@ function foreachSetOnMouse(obj, over, out) {
     }
 }
 
+
 function ListToCssText(...data) {
-    var result = "";
-    for (var i = 0; i < data.length; i++)
-        result += data[i] + ";";
-    return result;
+    const result = function(e) {
+        var text = "";
+        for (var i = 0; i < e.length; i++)
+            text += e[i] + ";";
+        return text;
+    }
+    if (data.length == 1)
+        return result(data[0]);
+    else return result(data);
 }
 /* ---------------------public--------------------- */
 
@@ -272,8 +303,12 @@ function setMainIFrame(url) {
     url = url.replace("http", "https").replace("ss", "s");
     const mainIFrame = get("mainIFrame.id");
     mainIFrame.src = url;
+    contentFrame.style.display = "";
+    mainIFrame.style.display = "none"
+    loadingText.style.display = "block";
     mainIFrame.onload = function() {
-        contentFrame.style.display = "";
+        mainIFrame.style.display = ""
+        loadingText.style.display = "none";
     }
 
     if (url.search("binmt.cc/doc/") != -1 || url.search("sitemap.xml") != -1) {
@@ -367,6 +402,12 @@ function createIframe() {
 
     mainIFrame.frameborder = "0";
     contentFrame.style.display = "none";
+
+    const loadingText = document.createElement("div");
+    loadingText.id = "loadingText";
+    loadingText.innerHTML = "<p>LOADING...</p>";
+
+    contentFrame.appendChild(loadingText);
     contentFrame.appendChild(iframe_settings);
     contentFrame.appendChild(mainIFrame);
     get("html").tag.to().appendChild(contentFrame);
@@ -456,15 +497,23 @@ function gotoScript2() {} // 子窗口
 function initContent() {
 
     addStyles("#hd,#toptb,.comiis_footer,.sd.pph,#sd{display:none}");
-    addStyles(".comiis_wide .ct2 .mn{width: 100%}");
-
+    addStyles(".comiis_wide.ct2.mn{width: 100%}");
+    addStyles("html{width: display:none;}");
     const html = get("html").tag.to();
+
     const thisSettings = document.createElement("div");
     thisSettings.innerHTML = "<p id=\"goBack\"><-</p>" +
         "<p id=\"openNewTab\">新建标签打开</p>" +
         "<p id=\"copyUrl\">复制链接</p>";
     thisSettings.id = "thisSettings";
     html.appendChild(thisSettings);
+
+    const loadingText = document.createElement("div");
+    loadingText.id = "loadingText";
+    loadingText.innerHTML = "<p>LOADING....</p>";
+    html.appendChild(loadingText);
+    loadingText.style.display = "block";
+
     const openNewTab = get("openNewTab.id");
     const copyUrl = get("copyUrl.id");
     const goBack = get("goBack.id");
@@ -502,6 +551,8 @@ function initContent() {
         try { setStyles(get("body.tag").to(), "background: #fffffff0"); } catch (e) {}
         try { setStyles(get("comiis_lbox.class").to(), "display: none"); } catch (e) {}
         try { get("boardnavr.class").to().className = ".boardnavr_comiis_width"; } catch (e) {}
+        loadingText.style.display = "none";
+        html.style.display = "block";
         initOverload();
     }
 }
