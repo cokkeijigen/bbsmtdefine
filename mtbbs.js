@@ -216,7 +216,6 @@ function MapToStyleCssText(...maps) {
             result += key + "{" + ListToCssText(map[key]) + "}";
         }
     }
-    logd(result)
     return result;
 }
 
