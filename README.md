@@ -11,6 +11,6 @@
 然后选择添加新脚本<br>
 ![Image text](https://github.com/cokkeijigen/bbsmtdefine/blob/main/image4.png)<br>
 将代码复制粘贴保存<br>
-![Image text](https://github.com/cokkeijigen/bbsmtdefine/blob/main/image5.png)<br>
+![Image text](https://github.com/cokkeijigen/bbsmtdefine/blob/main/image6.png)<br>
 最后把运行时期设置为 document-start 即可<br>
-![Image text](http://cdn.img.kggzs.cn/uploads/img/2022/18/202262fb890035bb0.png)<br>
+![Image text](https://github.com/cokkeijigen/bbsmtdefine/blob/main/image5.png)<br>
