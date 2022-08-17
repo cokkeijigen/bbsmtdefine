@@ -187,8 +187,8 @@ function logd(text) {
     console.log(text);
 }
 
-function setStyles(...obj) { 
-    if (obj.length < 2) return;
+function setStyles(...obj) {
+    if (obj.length < 2 || obj[0] == null) return;
     const css = obj[obj.length - 1];
     try {
         if (obj.length == 2) {
@@ -546,6 +546,9 @@ function initContent() {
     }
     html.appendChild(reLoad);
 
+    setTimeout(function() {
+        loadingText.style.display = "none";
+    }, 3000);
     window.onload = function() {
         try { setStyles(get("body.tag").to(), "background: #fffffff0"); } catch (e) {}
         try { setStyles(get("comiis_lbox.class").to(), "display: none"); } catch (e) {}
