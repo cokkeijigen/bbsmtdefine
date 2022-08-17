@@ -187,7 +187,7 @@ function logd(text) {
     console.log(text);
 }
 
-function setStyles(...obj) {
+function setStyles(...obj) { 
     if (obj.length < 2) return;
     const css = obj[obj.length - 1];
     try {
