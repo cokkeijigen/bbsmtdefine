@@ -10,7 +10,7 @@
 ![Image text](https://github.com/cokkeijigen/bbsmtdefine/blob/main/image3.png)<br>
 然后选择添加新脚本<br>
 ![Image text](https://github.com/cokkeijigen/bbsmtdefine/blob/main/image4.png)<br>
-将代码复制粘贴保存<br>
+将[代码](https://github.com/cokkeijigen/bbsmtdefine/blob/main/mtbbs.js)复制粘贴保存<br>
 ![Image text](https://github.com/cokkeijigen/bbsmtdefine/blob/main/image6.png)<br>
 最后把运行时期设置为 document-start 即可<br>
 ![Image text](https://github.com/cokkeijigen/bbsmtdefine/blob/main/image5.png)<br>
