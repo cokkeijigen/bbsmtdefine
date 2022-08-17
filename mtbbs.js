@@ -430,7 +430,7 @@ function initLoadPage() {
 
     { // 导航栏内容
         const comiis_nvbox = get("comiis_nvbox.class").to();
-        setCallBackOnForeach(get("li.tag", comiis_nvbox).all(), function(e, n) {
+        setCallBackOnForeach(get("li.tag", comiis_nvbox).all(), (e, n) => {
             if (n <= 1) return;
             rep(get("a.tag", e).to());
         });
@@ -438,12 +438,9 @@ function initLoadPage() {
         rep(get("a.tag", get("comiis_key.id")).to());
 
         const comiis_key_menu = get("comiis_key_menu.id");
-        setCallBackOnForeach(get("a.tag", comiis_key_menu).all(), function(e, n) {
-            rep(e);
-        });
+        setCallBackOnForeach(get("a.tag", comiis_key_menu).all(), (e, n) => rep(e));
 
     } { // 中间部分
-
         try {
             setCallBackOnForeach(get("comiis_vrx.class").all(), (e, n) => {
                 setCallBackOnForeach(getTagA(e), (e, n) => rep(e));
@@ -463,7 +460,7 @@ function initLoadPage() {
         } catch (e) {}
 
         try { // 导读界面
-            setCallBackOnForeach(get("bm_c.class").all(), function(e, n) {
+            setCallBackOnForeach(get("bm_c.class").all(), (e, n) => {
                 setCallBackOnForeach(getTagA(e), (e, n) => rep(e));
             })
         } catch (e) {}
@@ -547,6 +544,7 @@ function initContent() {
     html.appendChild(reLoad);
 
     setTimeout(function() {
+        /* 设置加载动画超时隐藏 */
         loadingText.style.display = "none";
     }, 3000);
     window.onload = function() {
