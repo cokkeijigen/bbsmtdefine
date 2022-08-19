@@ -7,6 +7,7 @@
 // @match        *bbs.binmt.cc/*
 // @grant        none
 // @icon         https://bbs.binmt.cc/favicon.ico
+// @license      GNU GPLv3
 // ==/UserScript==
 
 (function() {
