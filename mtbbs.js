@@ -373,7 +373,7 @@ function replaceStyle() {
                         thisUrl.replaceAll("/", "").endsWith("bbs.binmt.cc")) || (
                         n == 1 && thisUrl.search("forum.php") != -1 &&
                         !thisUrl.replaceAll("/", "").endsWith("mod=guide")
-                    ));
+                    )) && thisUrl.search("mod=viewthread") == -1;
                 })();
                 if (notCan) {
                     aNavItem.style.color = "";
