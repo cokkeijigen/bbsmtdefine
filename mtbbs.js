@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MT论坛加强插件
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.2
 // @description  总之打点字上去!
 // @author       CokkezigenDAR
 // @match        *bbs.binmt.cc/*
@@ -17,7 +17,7 @@
         initContent();
     } else if (top == self) {
         // Script2   主窗口
-        intWindowOnload();
+        initWindowOnload();
     }
 })();
 
@@ -63,14 +63,14 @@ function initCssStyleContent() {
         "#iframe_settings": [
             "text-align: center",
             "position: absolute",
-            "bottom: 0",
+            "top: 0",
             "right: 0"
         ]
     }, {
         "#thisSettings": [
             "text-align: center",
             "position: fixed",
-            "top: 0",
+            "bottom: 0",
             "animation: none",
             "z-index: 99999",
             "right: 0",
@@ -81,10 +81,10 @@ function initCssStyleContent() {
     }, {
         "#closeIFrame, #openNewTab, #copyUrl, #goBack, #onReLoadBtn": [
             "float: right",
-            "padding: 10px 15px",
-            "margin: 5px 10px",
+            "padding: 7px 10px",
+            "margin: 5px",
             "font-weight: bold",
-            "font-size: 10px",
+            "font-size: 5px",
             "color: #ffffff",
             "background-color: #6790ff",
             "border-radius: 20px",
@@ -112,6 +112,7 @@ function initCssStyleContent() {
     }, {
         "#closeIFrame:hover, #openNewTab:hover, #copyUrl:hover, #goBack:hover, #onReLoadBtn:hover": [
             "cursor: pointer",
+            "color: yellow",
             "background-color: #000c2e",
             "box-shadow: 0 0 8px #ffefaa"
         ]
@@ -244,13 +245,12 @@ function ListToCssText(...data) {
     else return result(data);
 }
 /* ---------------------public--------------------- */
-
 function gotoScript1() {}
 /* ---------------------Script1--------------------- */
-function intWindowOnload() {
+function initWindowOnload() {
     const html = get("html").tag.to();
+    html.style.opacity = "0";
     window.onload = function() {
-        html.style.opacity = "0";
 
         // 设置背景图片
         try { setBackgroundImage("http://cdn.img.kggzs.cn/uploads/img/2022/18/202262fb262b7d4e3.jpg"); } catch (e) {}
@@ -279,7 +279,6 @@ function rpeSearchBtn() {
         setMainIFrame("https://bbs.binmt.cc/search.php");
 }
 
-
 function setBackgroundImage(url) {
     setStyles(get("body.tag").to(), ListToCssText(
         "background-image: url(" + url + ")",
@@ -304,15 +303,20 @@ function setMainIFrame(url) {
         mainIFrame.style.display = ""
         loadingText.style.display = "none";
     }
-
+    const openNewTab = get("openNewTab.id");
+    const iframe_settings = get("iframe_settings.id");
     if (url.search("binmt.cc/doc/") != -1 || url.search("sitemap.xml") != -1) {
-        const openNewTab = get("openNewTab.id");
+        iframe_settings.style.top = "auto";
+        iframe_settings.style.bottom = "0";
         openNewTab.style.display = "block";
         openNewTab.onclick = function() {
             window.open(mainIFrame.src, "_blank");
         }
-    } else
+    } else {
         openNewTab.style.display = "none";
+        iframe_settings.style.top = "";
+        iframe_settings.style.bottom = "";
+    }
 
 }
 
@@ -387,7 +391,7 @@ function createIframe() {
     const mainIFrame = document.createElement("iframe");
     const iframe_settings = document.createElement("div");
 
-    iframe_settings.innerHTML = "<p id=\"closeIFrame\">关闭</p>" +
+    iframe_settings.innerHTML = "<p id=\"closeIFrame\">　×　</p>" +
         "<p id=\"openNewTab\" style=\"display: none\">新建标签打开</p>";
     iframe_settings.id = "iframe_settings";
 
@@ -494,7 +498,7 @@ function initContent() {
 
     const thisSettings = document.createElement("div");
     thisSettings.innerHTML = "<p id=\"onReLoadBtn\">刷新</p>" +
-        "<p id=\"goBack\">&lt;</p>" +
+        "<p id=\"goBack\">&ensp;&lt;&ensp;</p>" +
         "<p id=\"openNewTab\">新建标签打开</p>" +
         "<p id=\"copyUrl\">复制链接</p>";
     thisSettings.id = "thisSettings";
