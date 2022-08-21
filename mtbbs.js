@@ -363,7 +363,8 @@ function replaceStyle() {
                     const thisUrl = window.location.href;
                     return (thisUrl == aNavItem.href || (n == 1 &&
                         thisUrl.replaceAll("/", "").endsWith("bbs.binmt.cc")) || (
-                        n == 1 && thisUrl.search("forum.php") != -1
+                        n == 1 && thisUrl.search("forum.php") != -1 &&
+                        !thisUrl.replaceAll("/", "").endsWith("mod=guide")
                     ));
                 })();
                 if (notCan) {
