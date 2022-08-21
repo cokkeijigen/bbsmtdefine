@@ -10,6 +10,13 @@
 // @icon         https://bbs.binmt.cc/favicon.ico
 // ==/UserScript==
 
+/* 设置背景图片url */
+const DefBackgroundImageUrl = "http://cdn.img.kggzs.cn/uploads/img/2022/18/202262fb262b7d4e3.jpg";
+/* 时候开启替换背景图片 */
+const DefBackgroundImage = true;
+/* 设置全局过度动画时长 (单位：秒) */
+const DefAnimationDuration = 0.5;
+
 (function() {
     initCssStyleContent(); // css style
     if (top != self) {
@@ -30,7 +37,7 @@ function initCssStyleContent() {
     addStyles(MapToStyleCssText({
         "@keyframes fade-in": ["0% { opacity: 0;} 100% {opacity: 1;}"]
     }, {
-        "*": ["animation: fade-in", "animation-duration: 0.5s"]
+        "*": ["animation: fade-in", "animation-duration:" + DefAnimationDuration + "s"]
     }, {
         "*::selection": [
             "background-color: rgba(255, 168, 219, 0.192)",
@@ -265,7 +272,7 @@ function initWindowOnload() {
     window.onload = function() {
 
         // 设置背景图片
-        try { setBackgroundImage("http://cdn.img.kggzs.cn/uploads/img/2022/18/202262fb262b7d4e3.jpg"); } catch (e) {}
+        try { setBackgroundImage(DefBackgroundImageUrl); } catch (e) {}
         // 替换样式
         try { replaceStyle(); } catch (e) {}
         // 自动签到
@@ -292,6 +299,7 @@ function rpeSearchBtn() {
 }
 
 function setBackgroundImage(url) {
+    if (!DefBackgroundImage) return;
     setStyles(get("body.tag").to(), ListToCssText(
         "background-image: url(" + url + ")",
         "background-attachment: fixed",
@@ -375,8 +383,7 @@ function replaceStyle() {
                     aNavItem.style.letterSpacing = "2px";
                     nav_ls_bc.style.display = "block";
                 };
-
-                const setOn = (e) => {
+                e.onmouseover = (e) => {
                     if (notCan) return;
                     const text = e.path[0];
                     const bac = e.path[1];
@@ -389,7 +396,7 @@ function replaceStyle() {
                     nav_ls_bc.style.display = "block";
                     nav_ls_bc.style.backgroundColor = "#0084ff";
                 };
-                const setOff = (e) => {
+                e.onmouseout = (e) => {
                     if (notCan) return;
                     const text = e.path[0];
                     const bac = e.path[1];
@@ -402,8 +409,6 @@ function replaceStyle() {
                     text.style.letterSpacing = "";
                     nav_ls_bc.style.backgroundColor = "";
                 };
-                e.onmouseover = (e) => setOn(e);
-                e.onmouseout = (e) => setOff(e);
             });
 
         } {
