@@ -6,15 +6,15 @@
 // @author       CokkezigenDAR
 // @match        *bbs.binmt.cc/*
 // @grant        none
-// @icon         https://bbs.binmt.cc/favicon.ico
 // @license      GNU GPLv3
+// @icon         https://bbs.binmt.cc/favicon.ico
 // ==/UserScript==
 
 (function() {
     initCssStyleContent(); // css style
     if (top != self) {
         // Script1  子窗口
-        initContent(); 
+        initContent();
     } else if (top == self) {
         // Script2   主窗口
         intWindowOnload();
@@ -70,10 +70,10 @@ function initCssStyleContent() {
         "#thisSettings": [
             "text-align: center",
             "position: fixed",
-            "bottom: 0",
+            "top: 0",
             "animation: none",
             "z-index: 99999",
-            "right: 60px",
+            "right: 0",
             "opacity: 0"
         ]
     }, {
@@ -108,12 +108,6 @@ function initCssStyleContent() {
             "background-image: -webkit-linear-gradient(bottom, #94adff, #77ffdd)",
             "-webkit-background-clip: text",
             "-webkit-text-fill-color: transparent"
-        ]
-    }, {
-        "#onReLoadBtn": [
-            "right: 0; top: 0;",
-            "position: fixed",
-            "opacity: 0"
         ]
     }, {
         "#closeIFrame:hover, #openNewTab:hover, #copyUrl:hover, #goBack:hover, #onReLoadBtn:hover": [
@@ -499,7 +493,8 @@ function initContent() {
     const html = get("html").tag.to();
 
     const thisSettings = document.createElement("div");
-    thisSettings.innerHTML = "<p id=\"goBack\"><-</p>" +
+    thisSettings.innerHTML = "<p id=\"onReLoadBtn\">刷新</p>" +
+        "<p id=\"goBack\">&lt;</p>" +
         "<p id=\"openNewTab\">新建标签打开</p>" +
         "<p id=\"copyUrl\">复制链接</p>";
     thisSettings.id = "thisSettings";
@@ -514,6 +509,7 @@ function initContent() {
     const openNewTab = get("openNewTab.id");
     const copyUrl = get("copyUrl.id");
     const goBack = get("goBack.id");
+    const reLoad = get("onReLoadBtn.id");
     openNewTab.onclick = function() {
         window.open(window.location.href, "_blank");
     }
@@ -535,14 +531,9 @@ function initContent() {
     goBack.onclick = function() {
         window.history.back();
     }
-
-    const reLoad = document.createElement("div");
-    reLoad.innerText = "刷新";
-    reLoad.id = "onReLoadBtn";
     reLoad.onclick = function() {
         window.location.reload();
     }
-    html.appendChild(reLoad);
 
     setTimeout(function() {
         /* 设置加载动画超时隐藏 */
@@ -559,9 +550,9 @@ function initContent() {
 }
 
 function initOverload() {
-    setCallBackOnForeach(get("a.tag").all(), function(e, n) {
-        if (e.innerText == "[复制链接]" || e.innerText == "发消息" || e.innerText == "记录" ||
-            e.innerText == "[记录]") return;
+    setCallBackOnForeach(get("a.tag").all(), (e, n) => {
+        if (e.innerText == "[复制链接]" || e.innerText == "发消息" ||
+            e.innerText == "记录" || e.innerText == "[记录]") return;
         if (e.href == "javascript:;") return;
         const url = e.href.replace("http", "https").replace("ss", "s");
         e.onclick = function() {
