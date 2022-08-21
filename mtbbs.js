@@ -12,7 +12,7 @@
 
 /* 设置背景图片url */
 const DefBackgroundImageUrl = "http://cdn.img.kggzs.cn/uploads/img/2022/18/202262fb262b7d4e3.jpg";
-/* 时候开启替换背景图片 */
+/* 是否开启替换背景图片 */
 const DefBackgroundImage = true;
 /* 设置全局过度动画时长 (单位：秒) */
 const DefAnimationDuration = 0.5;
