@@ -391,7 +391,7 @@ function createIframe() {
     const mainIFrame = document.createElement("iframe");
     const iframe_settings = document.createElement("div");
 
-    iframe_settings.innerHTML = "<p id=\"closeIFrame\">　×　</p>" +
+    iframe_settings.innerHTML = "<p id=\"closeIFrame\">&ensp;×&ensp;</p>" +
         "<p id=\"openNewTab\" style=\"display: none\">新建标签打开</p>";
     iframe_settings.id = "iframe_settings";
 
