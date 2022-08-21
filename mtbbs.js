@@ -127,6 +127,18 @@ function initCssStyleContent() {
         ]
     }, {
         "#search_btn:hover": ["cursor: pointer"]
+    }, {
+        ".nav_ls_bc": [
+            "height: 10px",
+            "z-index: -1",
+            "animation: none",
+            "margin-top: 30px",
+            "margin-left: 15px",
+            "margin-right: 15px",
+            "border-radius: 20px",
+            "background: coral",
+            "display: none"
+        ]
     }));
 }
 
@@ -227,8 +239,8 @@ function setCallBackOnForeach(obj, func) {
 
 function foreachSetOnMouse(obj, over, out) {
     for (var i = 0; i < obj.length; i++) {
-        obj[i].onmouseout = out;
         obj[i].onmouseover = over;
+        obj[i].onmouseout = out;
     }
 }
 
@@ -339,19 +351,60 @@ function replaceStyle() {
                 get("a.tag", comiis_nvbox).all(),
                 "background:#00000000"
             );
-            foreachSetOnMouse(
-                get("li.tag", comiis_nvbox).all(),
-                function(e) {
+
+            const nav_ls = get("li.tag", comiis_nvbox).all();
+            setCallBackOnForeach(nav_ls, (e, n) => {
+                if (n < 1) return;
+                const nav_ls_bc = document.createElement("div");
+                nav_ls_bc.className = "nav_ls_bc";
+                e.appendChild(nav_ls_bc);
+                const aNavItem = get("a.tag", e).to();
+                const notCan = (() => {
+                    const thisUrl = window.location.href;
+                    return (thisUrl == aNavItem.href || (n == 1 &&
+                        thisUrl.replaceAll("/", "").endsWith("bbs.binmt.cc")) || (
+                        n == 1 && thisUrl.search("forum.php") != -1
+                    ));
+                })();
+                if (notCan) {
+                    aNavItem.style.color = "";
+                    aNavItem.style.fontWeight = "bold";
+                    aNavItem.style.textShadow = "1px 2px black";
+                    aNavItem.style.fontSize = "20px";
+                    aNavItem.style.letterSpacing = "2px";
+                    nav_ls_bc.style.display = "block";
+                };
+
+                const setOn = (e) => {
+                    if (notCan) return;
                     const text = e.path[0];
                     const bac = e.path[1];
-                    text.style.color = ""
+                    text.style.color = "";
+                    text.style.fontWeight = "bold";
+                    text.style.textShadow = "1px 2px black";
+                    text.style.fontSize = "20px";
+                    text.style.letterSpacing = "2px";
+                    bac.style.background = "";
+                    nav_ls_bc.style.display = "block";
+                    nav_ls_bc.style.backgroundColor = "#0084ff";
+                };
+                const setOff = (e) => {
+                    if (notCan) return;
+                    const text = e.path[0];
+                    const bac = e.path[1];
+                    text.style.color = "";
+                    text.style.fontWeight = "";
+                    text.style.fontSize = "";
                     bac.style.background = ""
-                },
-                function(e) {
-                    e.path[0].style.color = ""
-                    e.path[1].style.background = ""
-                }
-            );
+                    text.style.textShadow = "";
+                    nav_ls_bc.style.display = "";
+                    text.style.letterSpacing = "";
+                    nav_ls_bc.style.backgroundColor = "";
+                };
+                e.onmouseover = (e) => setOn(e);
+                e.onmouseout = (e) => setOff(e);
+            });
+
         } {
             try {
                 const comiis_rollzbox = get("comiis_rollzbox.class").to();
