@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MT论坛加强插件
 // @namespace    http://tampermonkey.net/
-// @version      1.2
+// @version      1.25
 // @description  总之打点字上去!
 // @author       CokkezigenDAR
 // @match        *bbs.binmt.cc/*
@@ -12,10 +12,12 @@
 
 /* 设置背景图片url */
 const DefBackgroundImageUrl = "http://cdn.img.kggzs.cn/uploads/img/2022/18/202262fb262b7d4e3.jpg";
-/* 是否开启替换背景图片 */
+/* 是否开启替换背景图片(true开启，false关闭) */
 const DefBackgroundImage = true;
 /* 设置全局过度动画时长 (单位：秒) */
-const DefAnimationDuration = 0.5;
+const DefAnimationDuration = 0.2;
+/* 是否开启每日自动签到(true开启，false关闭) */
+const DefAutoDaysSign = true;
 
 (function() {
     initCssStyleContent(); // css style
@@ -311,7 +313,7 @@ function setBackgroundImage(url) {
 }
 
 function setMainIFrame(url) {
-    if (url.search("binmt") == -1)
+    if (url.search("binmt") == -1 && url.search("mt2.cn") == -1)
         return window.open(url, "_blank");
     url = url.replace("http", "https").replace("ss", "s");
     const mainIFrame = get("mainIFrame.id");
@@ -325,7 +327,8 @@ function setMainIFrame(url) {
     }
     const openNewTab = get("openNewTab.id");
     const iframe_settings = get("iframe_settings.id");
-    if (url.search("binmt.cc/doc/") != -1 || url.search("sitemap.xml") != -1) {
+    if (url.search("binmt.cc/doc/") != -1 || url.search("sitemap.xml") != -1 ||
+        url.search("goto.jsp") != -1 || url.search("/guide/") != -1) {
         iframe_settings.style.top = "auto";
         iframe_settings.style.bottom = "0";
         openNewTab.style.display = "block";
@@ -337,7 +340,6 @@ function setMainIFrame(url) {
         iframe_settings.style.top = "";
         iframe_settings.style.bottom = "";
     }
-
 }
 
 function replaceStyle() {
@@ -431,6 +433,7 @@ function replaceStyle() {
 }
 
 function autoDaysSign() {
+    if (!DefAutoDaysSign) return;
     try {
         const JD_sign = get("JD_sign.id");
         if (JD_sign == null) return;
@@ -619,7 +622,7 @@ function initOverload() {
         if (e.href == "javascript:;") return;
         const url = e.href.replace("http", "https").replace("ss", "s");
         e.onclick = function() {
-            if (url.search("binmt") != -1)
+            if (url.search("binmt") != -1 || url.search("mt2.cn") != -1)
                 window.location.href = url; // 站内地址可以继续使用子窗口访问
             else window.open(url, "_blank"); // 站外的地址新建标签页打开
             return false;
