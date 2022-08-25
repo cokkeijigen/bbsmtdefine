@@ -9,7 +9,7 @@
 // @license      GNU GPLv3
 // @icon         https://bbs.binmt.cc/favicon.ico
 // ==/UserScript==
-
+ 
 /* 设置背景图片url */
 const DefBackgroundImageUrl = "http://cdn.img.kggzs.cn/uploads/img/2022/18/202262fb262b7d4e3.jpg";
 /* 是否开启替换背景图片(true开启，false关闭) */
