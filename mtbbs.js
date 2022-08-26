@@ -9,7 +9,7 @@
 // @license      GNU GPLv3
 // @icon         https://bbs.binmt.cc/favicon.ico
 // ==/UserScript==
- 
+
 /* 设置背景图片url */
 const DefBackgroundImageUrl = "http://cdn.img.kggzs.cn/uploads/img/2022/18/202262fb262b7d4e3.jpg";
 /* 是否开启替换背景图片(true开启，false关闭) */
@@ -329,15 +329,18 @@ function setMainIFrame(url) {
     const iframe_settings = get("iframe_settings.id");
     if (url.search("binmt.cc/doc/") != -1 || url.search("sitemap.xml") != -1 ||
         url.search("goto.jsp") != -1 || url.search("/guide/") != -1) {
-        iframe_settings.style.top = "auto";
+        contentFrame.style.backgroundColor = "#00000000"
+        iframe_settings.style.position = "initial";
         iframe_settings.style.bottom = "0";
         openNewTab.style.display = "block";
         openNewTab.onclick = function() {
             window.open(mainIFrame.src, "_blank");
         }
     } else {
+        iframe_settings.style.position = "";
         openNewTab.style.display = "none";
         iframe_settings.style.top = "";
+        contentFrame.style.backgroundColor = ""
         iframe_settings.style.bottom = "";
     }
 }
