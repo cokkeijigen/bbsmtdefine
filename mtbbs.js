@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MT论坛加强插件
 // @namespace    http://tampermonkey.net/
-// @version      1.25
+// @version      1.28
 // @description  总之打点字上去!
 // @author       CokkezigenDAR
 // @match        *bbs.binmt.cc/*
@@ -270,9 +270,8 @@ function gotoScript1() {}
 /* ---------------------Script1--------------------- */
 function initWindowOnload() {
     const html = get("html").tag.to();
-    html.style.opacity = "0";
-    window.onload = function() {
-
+    var init = false;
+    const loading = function() {
         // 设置背景图片
         try { setBackgroundImage(DefBackgroundImageUrl); } catch (e) {}
         // 替换样式
@@ -285,9 +284,15 @@ function initWindowOnload() {
         try { initLoadPage(); } catch (e) {}
         // 替换搜索按钮
         try { rpeSearchBtn() } catch (e) {}
-
-        html.style.opacity = "1";
     }
+    window.onload = function() {
+        loading();
+        init = true;
+    }
+
+    setTimeout(function() {
+        if (!init) loading();
+    }, 800);
 }
 
 function rpeSearchBtn() {
