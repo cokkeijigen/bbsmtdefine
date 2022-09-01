@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MT论坛加强插件
 // @namespace    http://tampermonkey.net/
-// @version      1.28
+// @version      1.29
 // @description  总之打点字上去!
 // @author       CokkezigenDAR
 // @match        *bbs.binmt.cc/*
@@ -293,6 +293,11 @@ function initWindowOnload() {
     setTimeout(function() {
         if (!init) loading();
     }, 800);
+
+    setTimeout(function() {
+        if (!init)
+            try { setBackgroundImage(DefBackgroundImageUrl); } catch (e) {}
+    }, 100);
 }
 
 function rpeSearchBtn() {
