@@ -327,6 +327,8 @@ function setMainIFrame(url) {
         return window.open(url, "_blank");
     url = url.replace("http", "https").replace("ss", "s");
     const mainIFrame = get("mainIFrame.id");
+    const contentFrame = get("contentFrame.id");
+    const loadingText = get("loadingText.id");
     mainIFrame.src = url;
     contentFrame.style.display = "";
     mainIFrame.style.display = "none"
@@ -485,7 +487,7 @@ function createIframe() {
     contentFrame.appendChild(mainIFrame);
     get("html").tag.to().appendChild(contentFrame);
     get("closeIFrame.id").onclick = function() {
-        contentFrame.style.display = "none";
+        get("contentFrame.id").style.display = "none";
     }
 }
 
@@ -503,17 +505,20 @@ function initLoadPage() {
     }
 
     { // 导航栏内容
-        const comiis_nvbox = get("comiis_nvbox.class").to();
-        setCallBackOnForeach(get("li.tag", comiis_nvbox).all(), (e, n) => {
-            if (n <= 1) return;
-            rep(get("a.tag", e).to());
-        });
-
-        rep(get("a.tag", get("comiis_key.id")).to());
-
-        const comiis_key_menu = get("comiis_key_menu.id");
-        setCallBackOnForeach(get("a.tag", comiis_key_menu).all(), (e, n) => rep(e));
-
+        try {
+            const comiis_nvbox = get("comiis_nvbox.class").to();
+            setCallBackOnForeach(get("li.tag", comiis_nvbox).all(), (e, n) => {
+                if (n <= 1) return;
+                rep(get("a.tag", e).to());
+            });
+        } catch (e) {}
+        try {
+            rep(get("a.tag", get("comiis_key.id")).to());
+        } catch (e) {}
+        try {
+            const comiis_key_menu = get("comiis_key_menu.id");
+            setCallBackOnForeach(get("a.tag", comiis_key_menu).all(), (e, n) => rep(e));
+        } catch (e) {}
     } { // 中间部分
         try {
             setCallBackOnForeach(get("comiis_vrx.class").all(), (e, n) => {
