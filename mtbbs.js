@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MT论坛加强插件
 // @namespace    http://tampermonkey.net/
-// @version      1.30
+// @version      1.30.1
 // @description  总之打点字上去!
 // @author       CokkezigenDAR
 // @match        *bbs.binmt.cc/*
@@ -640,7 +640,7 @@ function initOverload() {
         if (e.href == "javascript:;") return;
         const url = e.href.replace("http", "https").replace("ss", "s");
         e.onclick = function() {
-            if (url.search("binmt") != -1 || url.search("mt2.cn") != -1)
+            if ((url.search("binmt") != -1 || url.search("mt2.cn") != -1) && url.search("mod=attachment") == -1)
                 window.location.href = url; // 站内地址可以继续使用子窗口访问
             else window.open(url, "_blank"); // 站外的地址新建标签页打开
             return false;
