@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MT论坛加强插件
 // @namespace    http://tampermonkey.net/
-// @version      1.30.1
+// @version      1.30.0
 // @description  总之打点字上去!
 // @author       CokkezigenDAR
 // @match        *bbs.binmt.cc/*
@@ -323,7 +323,8 @@ function setBackgroundImage(url) {
 }
 
 function setMainIFrame(url) {
-    if (url.search("binmt") == -1 && url.search("mt2.cn") == -1)
+    if (url.search("binmt") == -1 && url.search("mt2.cn") == -1 &&
+        url.search("k_misign-sign.html?operation=qiandao&format=button") != -1)
         return window.open(url, "_blank");
     url = url.replace("http", "https").replace("ss", "s");
     const mainIFrame = get("mainIFrame.id");
