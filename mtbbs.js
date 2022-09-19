@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MT论坛加强插件
 // @namespace    http://tampermonkey.net/
-// @version      1.29
+// @version      1.30
 // @description  总之打点字上去!
 // @author       CokkezigenDAR
 // @match        *bbs.binmt.cc/*
@@ -340,7 +340,7 @@ function setMainIFrame(url) {
     const openNewTab = get("openNewTab.id");
     const iframe_settings = get("iframe_settings.id");
     if (url.search("binmt.cc/doc/") != -1 || url.search("sitemap.xml") != -1 ||
-        url.search("goto.jsp") != -1 || url.search("/guide/") != -1) {
+        url.search("goto.jsp") != -1 || url.search("/guide/") != -1 || url == "https://mt2.cn/") {
         contentFrame.style.backgroundColor = "#00000000"
         iframe_settings.style.position = "initial";
         iframe_settings.style.bottom = "0";
