@@ -323,7 +323,7 @@ function setBackgroundImage(url) {
 }
 
 function setMainIFrame(url) {
-    if (url.search("binmt") == -1 && url.search("mt2.cn") == -1 &&
+     if ((url.search("binmt") == -1 && url.search("mt2.cn") == -1)|| &&
         url.search("k_misign-sign.html?operation=qiandao&format=button") != -1)
         return window.open(url, "_blank");
     url = url.replace("http", "https").replace("ss", "s");
