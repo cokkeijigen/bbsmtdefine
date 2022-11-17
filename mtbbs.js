@@ -66,7 +66,7 @@ function initCssStyleContent() {
             "border-radius:15px",
             "width: 100%", "height: 100%",
             "background-color: #00000000",
-            "box-shadow: 0 0 8px #0084ff"
+            "box-shadow: 0 0 8px #333333"
         ]
     }, {
         "#iframe_settings": [
