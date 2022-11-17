@@ -619,7 +619,9 @@ function initContent() {
     reLoad.onclick = function() {
         window.location.reload();
     }
-
+    setTimeout(function() {
+        initOverload();
+    }, 800);
     setTimeout(function() {
         /* 设置加载动画超时隐藏 */
         loadingText.style.display = "none";
